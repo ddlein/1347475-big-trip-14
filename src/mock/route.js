@@ -1,86 +1,19 @@
 import dayjs from 'dayjs';
+import {TYPES, CITIES, OFFERS, DESCRIPTION} from '../const.js';
+import {getRandomInteger} from '../utils';
 
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
 
 const generateType = () => {
-  const types = [
-    'taxi',
-    'bus',
-    'train',
-    'ship',
-    'transport',
-    'drive',
-    'flight',
-    'check-in',
-    'sightseeing',
-    'restaurant',
-  ];
-
-  const randomIndex = getRandomInteger(0, types.length - 1);
-
-  return types[randomIndex];
+  return TYPES[getRandomInteger(0, TYPES.length - 1)];
 };
 
 const generateCity = () => {
-  const cities = [
-    'Venice',
-    'Milan',
-    'Roma',
-    'Dubai',
-    'Berlin',
-  ];
-
-  const randomIndex = getRandomInteger(0, cities.length - 1);
-
-  return cities[randomIndex];
+  return CITIES[getRandomInteger(0, CITIES.length - 1)];
 };
 
 
-const offers = [
-  {
-    'title': 'Upgrade to a business class',
-    'price': 120,
-  },
-  {
-    'title': 'Choose the radio station',
-    'price': 60,
-  },
-  {
-    'title': 'Wi-Fi',
-    'price': 50,
-  },
-  {
-    'title': 'Choose film',
-    'price': 30,
-  },
-];
-
 const generateOffers = () => {
-  const randomIndex = getRandomInteger(1, offers.length);
-  return offers.slice(0, randomIndex);
-
-
-  // const x = [];
-  // let isChecked;
-  // generateNewOffers.forEach((element) => {
-  //   if (getRandomInteger() === 1) {
-  //     isChecked = 'checked';
-  //   } else {isChecked = '';}
-  //   x.push(`<div class="event__offer-selector">
-  //         <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" ${isChecked}>
-  //         <label class="event__offer-label" for="event-offer-comfort-1">
-  //           <span class="event__offer-title">${element.title}</span>
-  //           &plus;&euro;&nbsp;
-  //           <span class="event__offer-price">${element.price}</span>
-  //         </label>
-  //       </div>`);
-  // });
-  // return x;
+  return OFFERS.slice(0, getRandomInteger(1, OFFERS.length));
 };
 
 // const generateOffer = () => {
@@ -194,17 +127,7 @@ const generateOffers = () => {
 // };
 
 const generateDescription = () => {
-  const descriptions = [
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    'Cras aliquet varius magna, non porta ligula feugiat eget.',
-    'Aliquam erat volutpat.',
-    'In rutrum ac purus sit amet tempus.',
-    'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
-  ];
-
-  const randomIndex = getRandomInteger(1, descriptions.length);
-
-  return descriptions.slice(0, randomIndex);
+  return DESCRIPTION.slice(0, getRandomInteger(1, DESCRIPTION.length));
 };
 
 const generatePhoto = () => {
@@ -218,8 +141,9 @@ const generatePhoto = () => {
 };
 
 const generateDate = () => {
-  const daysGap = getRandomInteger(1, 100);
-  return dayjs().add(daysGap, 'day');
+  const daysGap = getRandomInteger(1, 10);
+  const minutesGap = getRandomInteger(1, 300);
+  return dayjs().add(daysGap, 'day').add(minutesGap, 'm');
 };
 
 
@@ -234,8 +158,8 @@ const generateRoute = () => {
     'isFavorite': Boolean(getRandomInteger()),
     'photo': generatePhoto(),
     'description': generateDescription(),
-    'dateFrom': getDate.format('D/MM/YY HH:mm'),
-    'dateTo': getDate.add(getRandomInteger(1, 20), 'day').format('D/MM/YY HH:mm'),
+    'dateFrom': getDate,
+    'dateTo': getDate.add(getRandomInteger(40, 200), 'm'),
     'offers': generateOffers(),
   };
 };
