@@ -1,7 +1,10 @@
 import {getTotalDate} from '../utils';
 
+const COUNT_POINT = 3;
+
+
 const getTrip = (points) => {
-  if (points.length > 3) {
+  if (points.length > COUNT_POINT) {
     return `${points[0].destination} - ... - ${points[points.length - 1].destination}`;
   } else {
     const trip = [];
