@@ -45,5 +45,3 @@ export default class Sort {
     this._element = null;
   }
 }
-
-// export {createSortTemplate};

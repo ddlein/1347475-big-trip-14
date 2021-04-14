@@ -14,7 +14,6 @@ const getTrip = (points) => {
     return trip.join(' - ');
   }
 };
-//TODO исправить сортировку в Классы????
 const createRouteTemplate = (points) => {
   let sum = 0;
   points.forEach((elem) => {
@@ -58,4 +57,3 @@ export default class TripInfo {
   }
 }
 
-// export {createRouteTemplate};

@@ -84,4 +84,3 @@ export default class Waypoint {
 }
 
 
-// export {createWaypointsTemplate};

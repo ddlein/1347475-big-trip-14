@@ -39,4 +39,3 @@ export default class Filters {
   }
 }
 
-// export { createFiltersTemplate };

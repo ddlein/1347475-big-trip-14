@@ -48,9 +48,6 @@ const getTotalDate = (dateFrom, dateTo) => {
   return `${dateFrom.format('MMM D')} - ${dateTo.format('D')}`;
 };
 
-// const renderTemplate = (container, template, place) => {
-//   container.insertAdjacentHTML(place, template);
-// };
 
 const RenderPosition = {
   AFTERBEGIN: 'afterbegin',
@@ -92,7 +89,6 @@ export {
   getTotalDate,
   generateFromArray,
   generateFromArraySlice,
-  // renderTemplate,
   render,
   createElement,
   RenderPosition
