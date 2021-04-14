@@ -1,4 +1,4 @@
-import {getTime, getDiffTime, getDateForList} from '../utils.js';
+import {getTime, getDiffTime, getDateForList, createElement} from '../utils.js';
 
 
 const createOfferForList = (offer, price) => {
@@ -25,8 +25,7 @@ const createWaypointsTemplate = (route) => {
   const dateToForList = getDateForList(dateTo);
   const diffTime = getDiffTime(dateFrom, dateTo);
 
-  return `<ul class="trip-events__list">
-  <li class="trip-events__item">
+  return `<li class="trip-events__item">
     <div class="event">
       <time class="event__date" datetime="2019-03-18">${dateToForList}</time>
       <div class="event__type">
@@ -58,9 +57,31 @@ const createWaypointsTemplate = (route) => {
         <span class="visually-hidden">Open event</span>
       </button>
     </div>
-  </li>
-</ul>`;
+  </li>`;
 };
 
+export default class Waypoint {
+  constructor(route) {
+    this._route = route;
+    this._element = null;
+  }
 
-export {createWaypointsTemplate};
+  getTemplate() {
+    return createWaypointsTemplate(this._route);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+
+// export {createWaypointsTemplate};

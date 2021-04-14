@@ -1,5 +1,14 @@
-import {formatDateForEditPoint} from '../utils.js';
+import {formatDateForEditPoint, createElement} from '../utils.js';
 
+const BLANK_WAYPOINT = {
+  type: '',
+  basePrice: '',
+  destination: '',
+  description: '',
+  dateFrom: '',
+  dateTo: '',
+  offers: [],
+};
 
 const createOffer = (offer, price) => {
   return `<div class="event__offer-selector">
@@ -13,25 +22,15 @@ const createOffer = (offer, price) => {
 };
 
 const createEditFormTemplate = (route = {}) => {
-  const {
-    type = '',
-    basePrice = '',
-    destination = '',
-    description = '',
-    dateFrom = '',
-    dateTo = '',
-    offers = [],
-  } = route;
-
+  const {type, basePrice, destination, description, dateFrom, dateTo, offers} = route;
   const offerTag = [];
-
 
   for (let i = 0; i < offers.length; i++) {
     offerTag.push(createOffer(offers[i].title, offers[i].price));
   }
 
-
-  return `<form class="event event--edit" action="#" method="post">
+  return `<li class="trip-events__item">
+<form class="event event--edit" action="#" method="post">
     <header class="event__header">
       <div class="event__type-wrapper">
         <label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -128,7 +127,30 @@ const createEditFormTemplate = (route = {}) => {
         <p class="event__destination-description">${description}</p>
       </section>
     </section>
-  </form>`;
+  </form></li>`;
 };
 
-export {createEditFormTemplate};
+export default class WaypointEdit {
+  constructor(route = BLANK_WAYPOINT) {
+    this._route = route;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createEditFormTemplate(this._route);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+// export {createEditFormTemplate};
