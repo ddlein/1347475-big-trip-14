@@ -1,4 +1,4 @@
-import {getTotalDate} from '../utils';
+import {createElement, getTotalDate} from '../utils';
 
 const COUNT_POINT = 3;
 
@@ -14,7 +14,6 @@ const getTrip = (points) => {
     return trip.join(' - ');
   }
 };
-
 const createRouteTemplate = (points) => {
   let sum = 0;
   points.forEach((elem) => {
@@ -36,4 +35,25 @@ const createRouteTemplate = (points) => {
   </section>`;
 };
 
-export {createRouteTemplate};
+export default class TripInfo {
+  constructor(points) {
+    this._points = points;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createRouteTemplate(this._points);
+  }
+
+  getElement() {
+    if (this._element === null) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
