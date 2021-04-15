@@ -54,7 +54,7 @@ const RenderPosition = {
   BEFOREEND: 'beforeend',
 };
 
-const render = (container, element, place) => {
+const render = (container, element, place = RenderPosition.BEFOREEND) => {
   switch (place) {
     case RenderPosition.AFTERBEGIN:
       container.prepend(element);
@@ -80,6 +80,18 @@ const createElement = (template) => {
 // а не просто <a>Link 1</a><a>Link 2</a>
 
 
+// const onEscKeyDown = (evt, replace) => {
+//   if (evt.key === 'Escape' || evt.key === 'Esc') {
+//     evt.preventDefault();
+//     replace();
+//     document.removeEventListener('keydown', onEscKeyDown);
+//   }
+// };
+
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
 export {
   getRandomInteger,
   getTime,
@@ -91,5 +103,6 @@ export {
   generateFromArraySlice,
   render,
   createElement,
-  RenderPosition
+  RenderPosition,
+  isEscEvent
 };
