@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import {TYPES, CITIES, OFFERS, DESCRIPTION} from '../const.js';
-import {getRandomInteger, generateFromArray, generateFromArraySlice} from '../utils';
+// import {getRandomInteger, generateFromArray, generateFromArraySlice} from '../utils';
+import {getRandomInteger, generateFromArray, generateFromArraySlice} from '../utils/common.js';
 
 const generatePhoto = () => {
   const randomIndex = getRandomInteger(1, 5);

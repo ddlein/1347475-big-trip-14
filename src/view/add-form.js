@@ -1,3 +1,5 @@
+import AbstractView from './abstract';
+
 const createAddFormTemplate = () => {
   return `<form class="event event--edit" action="#" method="post">
   <header class="event__header">
@@ -144,4 +146,9 @@ const createAddFormTemplate = () => {
 </form>`;
 };
 
-export { createAddFormTemplate };
+export default class Filters extends AbstractView {
+  getTemplate() {
+    return createAddFormTemplate();
+  }
+}
+
