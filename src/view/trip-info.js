@@ -1,4 +1,5 @@
-import {createElement, getTotalDate} from '../utils';
+import {getTotalDate} from '../utils/waypoint';
+import AbstractView from './abstract';
 
 const COUNT_POINT = 3;
 
@@ -35,25 +36,14 @@ const createRouteTemplate = (points) => {
   </section>`;
 };
 
-export default class TripInfo {
+
+export default class TripInfo extends AbstractView {
   constructor(points) {
+    super();
     this._points = points;
-    this._element = null;
   }
 
   getTemplate() {
     return createRouteTemplate(this._points);
   }
-
-  getElement() {
-    if (this._element === null) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
-

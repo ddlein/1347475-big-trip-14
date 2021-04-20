@@ -1,4 +1,5 @@
-import {formatDateForEditPoint, createElement} from '../utils.js';
+import {formatDateForEditPoint} from '../utils/waypoint.js';
+import AbstractView from './abstract';
 
 const BLANK_WAYPOINT = {
   type: '',
@@ -130,26 +131,31 @@ const createEditFormTemplate = (route = {}) => {
   </form></li>`;
 };
 
-export default class WaypointEdit {
+export default class WaypointEdit extends AbstractView {
   constructor(route = BLANK_WAYPOINT) {
+    super();
     this._route = route;
-    this._element = null;
+
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   getTemplate() {
     return createEditFormTemplate(this._route);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector('form').addEventListener('submit', this._formSubmitHandler);
+  }
+
+  setFormClickHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._formSubmitHandler);
   }
 }
 

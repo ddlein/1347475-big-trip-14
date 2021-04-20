@@ -1,4 +1,5 @@
-import {getTime, getDiffTime, getDateForList, createElement} from '../utils.js';
+import {getTime, getDiffTime, getDateForList} from '../utils/waypoint.js';
+import AbstractView from './abstract';
 
 
 const createOfferForList = (offer, price) => {
@@ -60,26 +61,26 @@ const createWaypointsTemplate = (route) => {
   </li>`;
 };
 
-export default class Waypoint {
+export default class Waypoint extends AbstractView {
   constructor(route) {
+    super();
     this._route = route;
-    this._element = null;
+
+    this._rollupClickHandler = this._rollupClickHandler.bind(this);
   }
 
   getTemplate() {
     return createWaypointsTemplate(this._route);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _rollupClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.rollupClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setRollupClickHandler(callback) {
+    this._callback.rollupClick = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._rollupClickHandler);
   }
 }
 
