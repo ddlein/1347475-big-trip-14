@@ -30,12 +30,12 @@ const createWaypointsTemplate = (route) => {
 
   const timeFrom = getTime(dateFrom);
   const timeTo = getTime(dateTo);
-  const dateToForList = getDateForList(dateTo);
+  const dateFromForList = getDateForList(dateFrom);
   const diffTime = getDiffTime(dateFrom, dateTo);
 
   return `<li class="trip-events__item">
     <div class="event">
-      <time class="event__date" datetime="2019-03-18">${dateToForList}</time>
+      <time class="event__date" datetime="2019-03-18">${dateFromForList}</time>
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>

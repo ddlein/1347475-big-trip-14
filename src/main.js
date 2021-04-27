@@ -8,15 +8,8 @@ import '../src/mock/route.js';
 
 const POINT_COUNT = 20;
 
-const points = new Array(POINT_COUNT).fill('').map(generateRoute).sort((a, b) => {
-  if (a.dateTo > b.dateTo) {
-    return 1;
-  }
-  if (a.dateTo < b.dateTo) {
-    return -1;
-  }
-  return 0;
-});
+const points = new Array(POINT_COUNT).fill('').map(generateRoute);
+
 
 const headerElement = document.querySelector('.page-header');
 const mainElement = document.querySelector('.page-body__page-main');
