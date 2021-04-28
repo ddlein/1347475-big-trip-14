@@ -46,4 +46,12 @@ const DESCRIPTION = [
   'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
 ];
 
-export {TYPES, CITIES, OFFERS, DESCRIPTION};
+const SortType = {
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers',
+};
+
+export {TYPES, CITIES, OFFERS, DESCRIPTION, SortType};
