@@ -81,7 +81,6 @@ export default class Trip {
   }
 
   _handleWaypointChange(updatedWaypoint) {
-    console.log(updatedWaypoint);
     this._tripWaypoints = updateItem(this._tripWaypoints, updatedWaypoint);
     this._sourcedWaypoints = updateItem(this._sourcedWaypoints, updatedWaypoint);
     this._pointPresenter[updatedWaypoint.id].init(updatedWaypoint,this._typesAndOffers, this._citiesWithPhotosAndDescription);

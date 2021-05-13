@@ -7,7 +7,8 @@ const getTime = (date) => {
 };
 
 const getDiffTime = (dateFrom, dateTo) => {
-  let minutes = dateTo.diff(dateFrom, 'm');
+  let minutes = dayjs(dateTo).diff(dayjs(dateFrom), 'm');
+
   const hours = Math.floor(minutes / MINUTES_IN_HOURS);
   minutes = minutes - (hours * MINUTES_IN_HOURS);
 
@@ -30,7 +31,7 @@ const formatDateForEditPoint = (date) => {
 };
 
 const getTotalDate = (dateFrom, dateTo) => {
-  return `${dateFrom.format('MMM D')} - ${dateTo.format('D')}`;
+  return `${dayjs(dateFrom).format('MMM D')} - ${dayjs(dateTo).format('D')}`;
 };
 
 const getWeightForNullDate = (date1, date2) => {
@@ -50,7 +51,7 @@ const getWeightForNullDate = (date1, date2) => {
 };
 
 const sortByDay = (point1, point2) => {
-  const weight = getWeightForNullDate(point1.dateFrom, point2.dateFrom);
+  const weight = getWeightForNullDate(dayjs(point1.dateFrom), dayjs(point2.dateFrom));
 
   if (weight !== null) {
     return weight;
@@ -69,11 +70,11 @@ const sortByPrice = (price1, price2) => {
 };
 
 const sortByTime = (point1, point2) => {
-  if ((point1.dateTo - point1.dateFrom) < (point2.dateTo - point2.dateFrom)) {
+  if ((dayjs(point1.dateTo) - dayjs(point1.dateFrom)) < (dayjs(point2.dateTo) - dayjs(point2.dateFrom))) {
     return 1;
   }
 
-  if ((point1.dateTo - point1.dateFrom) > (point2.dateTo -point2.dateFrom)) {
+  if ((dayjs(point1.dateTo) - dayjs(point1.dateFrom)) > (dayjs(point2.dateTo) -dayjs(point2.dateFrom))) {
     return -1;
   }
   return 0;
@@ -101,7 +102,13 @@ const sortByEvent = (point1, point2) => {
   return  0;
 };
 
+const isDateFromMoreDateTo = (dateFrom, dateTo)  => {
+  if (dayjs(dateFrom) > dayjs(dateTo)) {
+    return true;
+  }
+};
+
 
 export {
-  getTime, formatDateForEditPoint, getDiffTime, getDateForList, getTotalDate, sortByDay, sortByPrice, sortByTime, sortByOffers, sortByEvent
+  getTime, formatDateForEditPoint, getDiffTime, getDateForList, getTotalDate, sortByDay, sortByPrice, sortByTime, sortByOffers, sortByEvent, isDateFromMoreDateTo
 };

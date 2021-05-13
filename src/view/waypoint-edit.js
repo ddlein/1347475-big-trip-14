@@ -1,5 +1,9 @@
-import {formatDateForEditPoint} from '../utils/waypoint.js';
+import {formatDateForEditPoint, isDateFromMoreDateTo} from '../utils/waypoint.js';
 import SmartView from './smart';
+import flatpickr from 'flatpickr';
+
+import '../../node_modules/flatpickr/dist/flatpickr.min.css';
+
 
 const BLANK_WAYPOINT = {
   type: '',
@@ -23,7 +27,6 @@ const createOffer = (offer, price) => {
 };
 
 const isAvailableOffer = (offers, type) => {
-  // console.log(offers);
   let offerTag = [];
 
   const offersChanged = offers.filter(
@@ -31,12 +34,9 @@ const isAvailableOffer = (offers, type) => {
       return offer.type === type;
     },
   );
-  // console.log(offersChanged);
-  // console.log(type);
   for (let i = 0; i < offersChanged.length; i++) {
     offerTag = offersChanged[i].offers.map(({title, price}) => createOffer(title, price));
   }
-  // console.log(offerTag);
   if (offerTag.length !== 0) {
     return `<section class="event__section  event__section--offers"><h3 class="event__section-title  event__section-title--offers">Offers</h3><div class="event__available-offers">${offerTag.join('')}</div></section>`;
   } else {
@@ -47,7 +47,6 @@ const isAvailableOffer = (offers, type) => {
 
 const isPhotoAvailable = (destination, citiesPhotosDescription) => {
   let resultPhotos = [];
-  // console.log(destination, citiesPhotosDescription);
 
   if (destination !== '') {
     const destinationChanged = citiesPhotosDescription.filter(
@@ -90,13 +89,7 @@ const isDescriptionAvailable = (city, citiesPhotosDescription) => {
     });
 
     return resultDescription;
-
-    // return `<section class="event__section  event__section--destination">
-    //   <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-    //   <p class="event__destination-description">${destinationChanged[0].description}</p>
-    // </section>`;
   } else {
-    //console.log(1111);
     return '';
   }
 };
@@ -140,17 +133,11 @@ const createEditFormTemplate = (data) => {
     type,
     basePrice,
     destination,
-    photo,
-    description,
     dateFrom,
     dateTo,
-    offers,
     defaultOffers,
     defaultCitiesWithPhotoAndDescription,
-    editType,
-    editDestination,
   } = data;
-  //console.log(defaultOffers);
 
   return `<li class="trip-events__item">
 <form class="event event--edit" action="#" method="post">
@@ -185,7 +172,7 @@ const createEditFormTemplate = (data) => {
         </label>
         <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
       </div>
-      <button class="event__save-btn  btn  btn--blue" type="submit" >Save</button>
+      <button class="event__save-btn  btn  btn--blue" type="submit" ${isDateFromMoreDateTo(dateFrom, dateTo) ? 'disabled' : ''} >Save</button>
       <button class="event__reset-btn" type="reset">Delete</button>
       <button class="event__rollup-btn" type="button">
         <span class="visually-hidden">Open event</span>
@@ -202,15 +189,21 @@ const createEditFormTemplate = (data) => {
 export default class WaypointEdit extends SmartView {
   constructor(point = BLANK_WAYPOINT, offers, photos) {
     super();
-    // this._route = route;
     this._data = WaypointEdit.parseWaypointToData(point, offers, photos);
+    this._datepickerFrom = null;
+    this._datepickerTo = null;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._formCancelHandler = this._formCancelHandler.bind(this);
     this._typePointToggleHandler = this._typePointToggleHandler.bind(this);
     this._destinationPointToggleHandler = this._destinationPointToggleHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
+    this._dateFromChangeHandler = this._dateFromChangeHandler.bind(this);
+    this._dateToChangeHandler = this._dateToChangeHandler.bind(this);
+
     this._setInnerHandlers();
+    this._setDatepickerFrom();
+    this._setDatepickerTo();
   }
 
   reset(point, defaultOffers, defaultPhotos) {
@@ -243,7 +236,55 @@ export default class WaypointEdit extends SmartView {
     this._setInnerHandlers();
     this.setFormSubmitHandler(this._callback.formSubmit);
     this.setFormClickHandler(this._callback.formCancel);
-    // this.setFormClickHandler(this._callback.formSubmit);
+    this._setDatepickerFrom();
+    this._setDatepickerTo();
+  }
+
+  _setDatepickerFrom() {
+    if (this._datepickerFrom) {
+      this._datepickerFrom.destroy();
+      this._datepickerFrom = null;
+    }
+
+    this._datepickerFrom = flatpickr (
+      this.getElement().querySelector('#event-start-time-1'),
+      {
+        dateFormat: 'd/m/y H:i',
+        defaultDate: formatDateForEditPoint(this._data.dateFrom),
+        onChange: this._dateFromChangeHandler,
+        enableTime: true,
+      },
+    );
+  }
+
+  _setDatepickerTo() {
+    if (this._datepickerTo) {
+      this._datepickerTo.destroy();
+      this._datepickerTo = null;
+    }
+
+    this._datepickerTo = flatpickr (
+      this.getElement().querySelector('#event-end-time-1'),
+      {
+        dateFormat: 'd/m/y H:i',
+        defaultDate: formatDateForEditPoint(this._data.dateTo),
+        onChange: this._dateToChangeHandler,
+        enableTime: true,
+      },
+    );
+  }
+
+  _dateFromChangeHandler([userDate]) {
+    this.updateData({
+      dateFrom: userDate,
+    });
+
+  }
+
+  _dateToChangeHandler([userDate]) {
+    this.updateData({
+      dateTo: userDate,
+    });
   }
 
   _typePointToggleHandler(evt) {
@@ -268,12 +309,11 @@ export default class WaypointEdit extends SmartView {
   }
 
   _formSubmitHandler(evt) {
-    console.log('click1111');
     evt.preventDefault();
     this._callback.formSubmit(WaypointEdit.parseDataToWaypoint(this._data));
   }
+
   _formCancelHandler(evt) {
-    console.log('5555');
     evt.preventDefault();
     this._callback.formCancel(WaypointEdit.parseDataToWaypoint(this._data));
   }
@@ -285,7 +325,6 @@ export default class WaypointEdit extends SmartView {
 
   setFormClickHandler(callback) {
     this._callback.formCancel = callback;
-    console.log('work');
     this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._formCancelHandler);
   }
 
@@ -296,8 +335,6 @@ export default class WaypointEdit extends SmartView {
       {
         defaultOffers: defaultOffers,
         defaultCitiesWithPhotoAndDescription: defaultPhotos,
-        editType: point.type,
-        editDestination: point.destination,
 
       },
     );
@@ -306,8 +343,6 @@ export default class WaypointEdit extends SmartView {
   static parseDataToWaypoint(data) {
     data = Object.assign({}, data);
 
-    delete data.editType;
-    delete data.editDestination;
     delete data.defaultOffers;
     delete data.defaultCitiesWithPhotoAndDescription;
 

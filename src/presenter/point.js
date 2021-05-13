@@ -45,7 +45,6 @@ export default class Point {
     this._waypointComponent.setRollupClickHandler(this._handleEditClick);
     this._waypointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._waypointEditComponent.setFormClickHandler(this._handleFormCancel);
-    // this._waypointEditComponent.setFormClickHandler(this._handleFormCancel);
 
     this._waypointComponent.setFavoriteClickHandler(this._handleFavoriteClick);
 
@@ -120,8 +119,6 @@ export default class Point {
 
   _handleFormSubmit(waypoint) {
     this._changeData(waypoint);
-    //console.log(waypoint);
-    console.log(333);
     this._replaceWaypointToList();
   }
 }
