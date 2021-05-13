@@ -55,7 +55,6 @@ const sortByDay = (point1, point2) => {
   if (weight !== null) {
     return weight;
   }
-
   return dayjs(point1.dateFrom).diff(dayjs(point2.dateFrom));
 };
 
