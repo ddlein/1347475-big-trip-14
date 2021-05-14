@@ -3,13 +3,29 @@ import {TYPES, CITIES, OFFERS, DESCRIPTION} from '../const.js';
 import {getRandomInteger, generateFromArray, generateFromArraySlice} from '../utils/common.js';
 import {nanoid} from 'nanoid';
 
+// const generatePhoto = () => {
+//   const randomIndex = getRandomInteger(1, 5);
+//   const photos = [];
+//   for (let i = 1; i <= randomIndex; i++) {
+//     const photo = `http://picsum.photos/248/152?r=${getRandomInteger(1, 100)}`;
+//     photos.push(photo);
+//   }
+//   return photos;
+// };
+
 const generatePhoto = () => {
   const randomIndex = getRandomInteger(1, 5);
+
   const photos = [];
+
   for (let i = 1; i <= randomIndex; i++) {
-    const photo = `http://picsum.photos/248/152?r=${getRandomInteger(1, 100)}`;
-    photos.push(photo);
+    const photoWithDescription = {
+      src: `http://picsum.photos/248/152?r=${getRandomInteger(1, 100)}`,
+      description: 'sdsdsddssdsds',
+    };
+    photos.push(photoWithDescription);
   }
+  // console.log(photos);
   return photos;
 };
 
@@ -31,12 +47,39 @@ const generateRoute = () => {
     destination: generateFromArray(CITIES),
     isFavorite: Boolean(getRandomInteger()),
     photo: generatePhoto(),
-    description: generateFromArraySlice(DESCRIPTION),
+    description: generateFromArraySlice(DESCRIPTION, 1),
     dateFrom: getDate,
     dateTo: getDate.add(getRandomInteger(40, 200), 'm'),
     offers: generateFromArraySlice(OFFERS),
   };
 };
 
+const generateOffers = () => {
+  const typesAndOffers = [];
 
-export {generateRoute};
+  for (let i = 0; i < TYPES.length; i++) {
+    const typeAndOffers = {
+      type: TYPES[i],
+      offers: generateFromArraySlice(OFFERS),
+    };
+    typesAndOffers.push(typeAndOffers);
+  }
+  return typesAndOffers;
+};
+
+const generatePhotoAndDescription = () => {
+  const arrayOfDestination = [];
+
+  for (let i = 0; i < CITIES.length; i++) {
+    const objectOfDestination = {
+      name: CITIES[i],
+      description: generateFromArraySlice(DESCRIPTION, 1),
+      picture: generatePhoto(),
+    };
+    arrayOfDestination.push(objectOfDestination);
+  }
+  return arrayOfDestination;
+};
+
+
+export {generateRoute, generateOffers, generatePhotoAndDescription};

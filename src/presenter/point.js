@@ -3,6 +3,7 @@ import WaypointEditView from '../view/waypoint-edit';
 import {remove, render, replace} from '../utils/render';
 import {isEscEvent} from '../utils/common';
 
+
 const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
@@ -13,6 +14,9 @@ export default class Point {
     this._tripListContainer = tripListContainer;
     this._changeData = changeData;
     this._changeMode = changeMode;
+
+    this._typesAndOffers = [];
+    this._citiesWithPhotosAndDescription = [];
 
     this._waypointComponent = null;
     this._waypointEditComponent = null;
@@ -26,14 +30,17 @@ export default class Point {
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
   }
 
-  init(waypoint) {
+  init(waypoint, typesAndOffers, citiesWithPhotosAndDescription) {
     this._waypoint = waypoint;
+
+    this._typesAndOffers = typesAndOffers;
+    this._citiesWithPhotosAndDescription = citiesWithPhotosAndDescription;
 
     const prevWaypointComponent = this._waypointComponent;
     const prevWaypointEditComponent = this._waypointEditComponent;
 
     this._waypointComponent = new WaypointView(waypoint);
-    this._waypointEditComponent = new WaypointEditView(waypoint);
+    this._waypointEditComponent = new WaypointEditView(waypoint, typesAndOffers, citiesWithPhotosAndDescription);
 
     this._waypointComponent.setRollupClickHandler(this._handleEditClick);
     this._waypointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
@@ -53,6 +60,8 @@ export default class Point {
     if (this._mode === Mode.EDITING) {
       replace(this._waypointEditComponent, prevWaypointEditComponent);
     }
+    remove(prevWaypointComponent);
+    remove(prevWaypointEditComponent);
   }
 
   destroy() {
@@ -77,12 +86,12 @@ export default class Point {
     replace(this._waypointComponent, this._waypointEditComponent);
     document.removeEventListener('keydown', this._escKeyDownHandler);
     this._mode = Mode.DEFAULT;
-
   }
 
   _escKeyDownHandler(evt) {
     if (isEscEvent(evt)) {
       evt.preventDefault();
+      this._waypointEditComponent.reset(this._waypoint, this._typesAndOffers, this._citiesWithPhotosAndDescription);
       this._replaceWaypointToList();
     }
   }
@@ -104,10 +113,12 @@ export default class Point {
   }
 
   _handleFormCancel() {
+    this._waypointEditComponent.reset(this._waypoint, this._typesAndOffers, this._citiesWithPhotosAndDescription);
     this._replaceWaypointToList();
   }
 
   _handleFormSubmit(waypoint) {
     this._changeData(waypoint);
+    this._replaceWaypointToList();
   }
 }

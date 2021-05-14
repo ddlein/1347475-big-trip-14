@@ -9,9 +9,10 @@ const generateFromArray = (array) => {
   return array[getRandomInteger(0, array.length - 1)];
 };
 
-const generateFromArraySlice = (array) => {
-  return array.slice(0, getRandomInteger(1, array.length));
+const generateFromArraySlice = (array, from = 0) => {
+  return array.slice(0, getRandomInteger(from, array.length));
 };
+
 
 const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
