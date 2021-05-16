@@ -2,6 +2,7 @@ import WaypointView from '../view/waypoint';
 import WaypointEditView from '../view/waypoint-edit';
 import {remove, render, replace} from '../utils/render';
 import {isEscEvent} from '../utils/common';
+import {UserActions, UpdateType} from '../const';
 
 
 const Mode = {
@@ -40,7 +41,7 @@ export default class Point {
     const prevWaypointEditComponent = this._waypointEditComponent;
 
     this._waypointComponent = new WaypointView(waypoint);
-    this._waypointEditComponent = new WaypointEditView(waypoint, typesAndOffers, citiesWithPhotosAndDescription);
+    this._waypointEditComponent = new WaypointEditView( typesAndOffers, citiesWithPhotosAndDescription, waypoint);
 
     this._waypointComponent.setRollupClickHandler(this._handleEditClick);
     this._waypointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
@@ -98,6 +99,8 @@ export default class Point {
 
   _handleFavoriteClick() {
     this._changeData(
+      UserActions.UPDATE_WAYPOINT,
+      UpdateType.MINOR,
       Object.assign(
         {},
         this._waypoint,
@@ -112,13 +115,23 @@ export default class Point {
     this._replaceWaypointToEdit();
   }
 
+  _handleDeleteClick(task) {
+    this._changeData(
+      UserActions.DELETE_TASK,
+      UpdateType.MINOR,
+      task,
+    );
+  }
+
   _handleFormCancel() {
     this._waypointEditComponent.reset(this._waypoint, this._typesAndOffers, this._citiesWithPhotosAndDescription);
     this._replaceWaypointToList();
   }
 
   _handleFormSubmit(waypoint) {
-    this._changeData(waypoint);
+    this._changeData(
+      UserActions.UPDATE_WAYPOINT,
+      UpdateType.MINOR, waypoint);
     this._replaceWaypointToList();
   }
 }

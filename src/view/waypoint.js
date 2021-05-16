@@ -1,5 +1,6 @@
 import {getTime, getDiffTime, getDateForList} from '../utils/waypoint.js';
 import AbstractView from './abstract';
+import he from 'he';
 
 
 const createOfferForList = (offer, price) => {
@@ -20,7 +21,8 @@ const createWaypointsTemplate = (route) => {
   const isFavoriteF = () => {
     if (isFavorite) {
       return 'event__favorite-btn--active';
-    }
+    } else {
+      return '';}
   };
 
 
@@ -49,7 +51,7 @@ const createWaypointsTemplate = (route) => {
         <p class="event__duration">${diffTime}</p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
+        &euro;&nbsp;<span class="event__price-value">${he.encode(basePrice.toString())}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">

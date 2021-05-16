@@ -1,17 +1,19 @@
-import {formatDateForEditPoint, isDateFromMoreDateTo} from '../utils/waypoint.js';
+import { formatDateForEditPoint, isDateFromMoreDateTo } from '../utils/waypoint.js';
 import SmartView from './smart';
 import flatpickr from 'flatpickr';
+import dayjs from 'dayjs';
+import he from 'he';
 
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
 
 const BLANK_WAYPOINT = {
-  type: '',
+  type: 'bus',
   basePrice: '',
   destination: '',
   description: '',
-  dateFrom: '',
-  dateTo: '',
+  dateFrom: dayjs(),
+  dateTo: dayjs(),
   offers: [],
 };
 
@@ -35,7 +37,7 @@ const isAvailableOffer = (offers, type) => {
     },
   );
   for (let i = 0; i < offersChanged.length; i++) {
-    offerTag = offersChanged[i].offers.map(({title, price}) => createOffer(title, price));
+    offerTag = offersChanged[i].offers.map(({ title, price }) => createOffer(title, price));
   }
   if (offerTag.length !== 0) {
     return `<section class="event__section  event__section--offers"><h3 class="event__section-title  event__section-title--offers">Offers</h3><div class="event__available-offers">${offerTag.join('')}</div></section>`;
@@ -56,14 +58,14 @@ const isPhotoAvailable = (destination, citiesPhotosDescription) => {
     );
 
     for (let i = 0; i < destinationChanged.length; i++) {
-      resultPhotos = destinationChanged[i].picture.map(({src}) => `<img class="event__photo" src="${src}" alt="Event photo">`);
+      resultPhotos = destinationChanged[i].picture.map(({ src }) => `<img class="event__photo" src="${src}" alt="Event photo">`);
     }
     if (resultPhotos.length !== 0) {
 
       return `<div class="event__photos-container">
-                      <div class="event__photos-tape">
-                        ${resultPhotos.join('')}
-                      </div>`;
+                <div class="event__photos-tape">
+                  ${resultPhotos.join('')}
+                </div>`;
     }
   } else {
     return '';
@@ -170,7 +172,7 @@ const createEditFormTemplate = (data) => {
           <span class="visually-hidden">Price</span>
           &euro;
         </label>
-        <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
+        <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${he.encode(basePrice.toString())}">
       </div>
       <button class="event__save-btn  btn  btn--blue" type="submit" ${isDateFromMoreDateTo(dateFrom, dateTo) ? 'disabled' : ''} >Save</button>
       <button class="event__reset-btn" type="reset">Delete</button>
@@ -187,7 +189,7 @@ const createEditFormTemplate = (data) => {
 };
 
 export default class WaypointEdit extends SmartView {
-  constructor(point = BLANK_WAYPOINT, offers, photos) {
+  constructor(offers, photos, point = BLANK_WAYPOINT) {
     super();
     this._data = WaypointEdit.parseWaypointToData(point, offers, photos);
     this._datepickerFrom = null;
@@ -238,6 +240,7 @@ export default class WaypointEdit extends SmartView {
     this.setFormClickHandler(this._callback.formCancel);
     this._setDatepickerFrom();
     this._setDatepickerTo();
+    this.setDeleteClickHandler(this._callback.deleteClick);
   }
 
   _setDatepickerFrom() {
@@ -246,7 +249,7 @@ export default class WaypointEdit extends SmartView {
       this._datepickerFrom = null;
     }
 
-    this._datepickerFrom = flatpickr (
+    this._datepickerFrom = flatpickr(
       this.getElement().querySelector('#event-start-time-1'),
       {
         dateFormat: 'd/m/y H:i',
@@ -263,7 +266,7 @@ export default class WaypointEdit extends SmartView {
       this._datepickerTo = null;
     }
 
-    this._datepickerTo = flatpickr (
+    this._datepickerTo = flatpickr(
       this.getElement().querySelector('#event-end-time-1'),
       {
         dateFormat: 'd/m/y H:i',
@@ -326,6 +329,11 @@ export default class WaypointEdit extends SmartView {
   setFormClickHandler(callback) {
     this._callback.formCancel = callback;
     this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._formCancelHandler);
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement().querySelector('.event__reset-btn').addEventListener('click', this._formDeleteClickHandler);
   }
 
   static parseWaypointToData(point, defaultOffers, defaultPhotos) {

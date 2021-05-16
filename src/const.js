@@ -54,4 +54,27 @@ const SortType = {
   OFFERS: 'offers',
 };
 
-export {TYPES, CITIES, OFFERS, DESCRIPTION, SortType};
+const UserActions = {
+  UPDATE_WAYPOINT: 'UPDATE_WAYPOINT',
+  ADD_WAYPOINT: 'ADD_WAYPOINT',
+  DELETE_WAYPOINT: 'DELETE_WAYPOINT',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+};
+
+const FilterType = {
+  EVERYTHING: 'EVERYTHING',
+  FUTURE: 'FUTURE',
+  PAST: 'PAST',
+};
+
+const MenuItem = {
+  TABLE: 'Table',
+  STATS: 'Stats',
+};
+
+export {TYPES, CITIES, OFFERS, DESCRIPTION, SortType, UserActions, UpdateType, FilterType, MenuItem};
