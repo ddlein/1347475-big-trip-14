@@ -4,6 +4,8 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {makeItemsUniq, countWayPointsByType, countPriceWaypointsByType, countMinutesWaypointsByType} from '../utils/stats';
 import {getParsedDurationFromMinutes} from '../utils/waypoint';
 
+const BAR_HEIGHT = 55;
+
 const renderMoneyChart = (moneyCtx, waypoints,uniqTypes) => {
   const totalSumPriceByType = uniqTypes.map((type) => countPriceWaypointsByType(waypoints, type));
 
@@ -298,7 +300,7 @@ export default class Stats extends SmartView {
     const types = waypoints.map((waypoint) => waypoint.type);
     const uniqTypes = makeItemsUniq(types);
 
-    const BAR_HEIGHT = 55;
+
     moneyCtx.height = BAR_HEIGHT * uniqTypes.length;
     typeCtx.height = BAR_HEIGHT * uniqTypes.length;
     timeSpendCtx.height = BAR_HEIGHT * uniqTypes.length;

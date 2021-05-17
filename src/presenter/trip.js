@@ -6,7 +6,7 @@ import PointPresenter from './point';
 import WaypointNewPresenter from './waypoint-new';
 import {SortType, UpdateType, UserActions, FilterType} from '../const';
 import {filter} from '../utils/filter.js';
-import {sortByDay, sortByPrice, sortByTime, sortByOffers, sortByEvent} from '../utils/waypoint';
+import {sortByDay, sortByPrice, sortByTime} from '../utils/waypoint';
 
 
 export default class Trip {
@@ -60,13 +60,13 @@ export default class Trip {
 
   createWaypoint() {
     this._currentSortType = SortType.DAY;
-    this._filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+    this._filterModel.setCurrent(UpdateType.MAJOR, FilterType.EVERYTHING);
     this._waypointNewPresenter.init(this._typesAndOffers, this._citiesWithPhotosAndDescription);
   }
 
   _getWaypoints() {
-    const filterType = this._filterModel.getFilter();
-    const waypoints = this._waypointsModel.getWaypoints();
+    const filterType = this._filterModel.getCurrent();
+    const waypoints = this._waypointsModel.get();
     const filtredWaypoints = filter[filterType](waypoints);
 
     switch (this._currentSortType) {
@@ -76,10 +76,6 @@ export default class Trip {
         return filtredWaypoints.sort(sortByPrice);
       case SortType.TIME:
         return filtredWaypoints.sort(sortByTime);
-      case SortType.OFFERS:
-        return filtredWaypoints.sort(sortByOffers);
-      case SortType.EVENT:
-        return filtredWaypoints.sort(sortByEvent);
     }
     return filtredWaypoints;
   }
@@ -122,13 +118,13 @@ export default class Trip {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserActions.UPDATE_WAYPOINT:
-        this._waypointsModel.updateWaypoint(updateType, update);
+        this._waypointsModel.update(updateType, update);
         break;
       case UserActions.ADD_WAYPOINT:
-        this._waypointsModel.addWaypoint(updateType, update);
+        this._waypointsModel.add(updateType, update);
         break;
       case UserActions.DELETE_WAYPOINT:
-        this._waypointsModel.deleteWaypoint(updateType, update);
+        this._waypointsModel.delete(updateType, update);
     }
   }
 
@@ -181,7 +177,7 @@ export default class Trip {
 
 
   _handleSortTypeChange(sortType) {
-    if (this._currentSortType === sortType) {
+    if (this._currentSortType === sortType || sortType === 'undefined') {
       return;
     }
     this._currentSortType = sortType;

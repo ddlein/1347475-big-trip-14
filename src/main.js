@@ -1,5 +1,4 @@
 import SiteMenuView from './view/site-menu.js';
-// import FiltersView from './view/filters.js';
 import TripInfoView from './view/trip-info.js';
 import { generateRoute, generateOffers, generatePhotoAndDescription } from './mock/route.js';
 import { render, RenderPosition, remove } from './utils/render.js';
@@ -16,7 +15,7 @@ const POINT_COUNT = 20;
 const waypoints = new Array(POINT_COUNT).fill('').map(generateRoute);
 
 const waypointsModel = new WaypointsModel();
-waypointsModel.setWaypoints(waypoints);
+waypointsModel.set(waypoints);
 
 const typeAndOffers = generateOffers();
 const citiesWithPhotosAndDescription = generatePhotoAndDescription();
@@ -62,7 +61,7 @@ const handleSiteMenuClick = (menuItem) => {
       break;
     case MenuItem.STATS:
       tripPresenter.destroy();
-      statisticsComponent = new StatsView(waypointsModel.getWaypoints());
+      statisticsComponent = new StatsView(waypointsModel.get());
       render(mainContainer, statisticsComponent, RenderPosition.BEFOREEND);
       break;
   }
