@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
 const MINUTES_IN_HOURS = 60;
+const HOURS_IN_DAY = 24;
 
 const getTime = (date) => {
   return dayjs(date).format('HH:mm');
@@ -17,6 +18,25 @@ const getDiffTime = (dateFrom, dateTo) => {
   }
   return `${hours}H ${minutes}M`;
 };
+
+const getDiffTimeInMinutes = (dateFrom, dateTo) => {
+  return dayjs(dateTo).diff(dayjs(dateFrom), 'm');
+};
+
+const getParsedDurationFromMinutes = (minutes) => {
+  const hours = Math.floor(minutes / MINUTES_IN_HOURS);
+  const days =  Math.floor(hours / HOURS_IN_DAY);
+  minutes = minutes - (hours * MINUTES_IN_HOURS);
+
+  if(days === 0){
+    if(hours === 0){
+      return  `${minutes}M`;
+    }
+    return `${hours}H ${minutes}M`;
+  }
+  return `${days}D ${hours}H ${minutes}M`;
+};
+
 
 const getDateForList = (dateTo) => {
   return dayjs(dateTo).format('MMM D');
@@ -108,7 +128,14 @@ const isDateFromMoreDateTo = (dateFrom, dateTo)  => {
   }
 };
 
+const isFuture = (dateFrom) => {
+  return dayjs(dateFrom) > dayjs();
+};
+
+const isPast = (dateFrom) => {
+  return dayjs(dateFrom) < dayjs();
+};
 
 export {
-  getTime, formatDateForEditPoint, getDiffTime, getDateForList, getTotalDate, sortByDay, sortByPrice, sortByTime, sortByOffers, sortByEvent, isDateFromMoreDateTo
+  getTime, formatDateForEditPoint, getDiffTime, getDateForList, getTotalDate, sortByDay, sortByPrice, sortByTime, sortByOffers, sortByEvent, isDateFromMoreDateTo, isFuture, isPast,getDiffTimeInMinutes, getParsedDurationFromMinutes
 };

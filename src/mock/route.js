@@ -3,15 +3,6 @@ import {TYPES, CITIES, OFFERS, DESCRIPTION} from '../const.js';
 import {getRandomInteger, generateFromArray, generateFromArraySlice} from '../utils/common.js';
 import {nanoid} from 'nanoid';
 
-// const generatePhoto = () => {
-//   const randomIndex = getRandomInteger(1, 5);
-//   const photos = [];
-//   for (let i = 1; i <= randomIndex; i++) {
-//     const photo = `http://picsum.photos/248/152?r=${getRandomInteger(1, 100)}`;
-//     photos.push(photo);
-//   }
-//   return photos;
-// };
 
 const generatePhoto = () => {
   const randomIndex = getRandomInteger(1, 5);
@@ -25,12 +16,11 @@ const generatePhoto = () => {
     };
     photos.push(photoWithDescription);
   }
-  // console.log(photos);
   return photos;
 };
 
 const generateDate = () => {
-  const daysGap = getRandomInteger(1, 10);
+  const daysGap = getRandomInteger(-5, 5);
   const minutesGap = getRandomInteger(1, 300);
   return dayjs().add(daysGap, 'day').add(minutesGap, 'm');
 };

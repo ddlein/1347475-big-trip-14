@@ -1,6 +1,6 @@
-import {getTime, getDiffTime, getDateForList} from '../utils/waypoint.js';
+import { getTime, getDiffTime, getDateForList } from '../utils/waypoint.js';
 import AbstractView from './abstract';
-
+import he from 'he';
 
 const createOfferForList = (offer, price) => {
   return `<li class="event__offer">
@@ -10,19 +10,19 @@ const createOfferForList = (offer, price) => {
         </li>`;
 };
 
-
 const createWaypointsTemplate = (route) => {
-
-  const {type, basePrice, destination, isFavorite, dateFrom, dateTo, offers} = route;
+  const { type, basePrice, destination, isFavorite, dateFrom, dateTo, offers } =
+    route;
 
   const offerList = [];
 
   const isFavoriteF = () => {
     if (isFavorite) {
       return 'event__favorite-btn--active';
+    } else {
+      return '';
     }
   };
-
 
   for (let i = 0; i < offers.length; i++) {
     offerList.push(createOfferForList(offers[i].title, offers[i].price));
@@ -49,7 +49,7 @@ const createWaypointsTemplate = (route) => {
         <p class="event__duration">${diffTime}</p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
+        &euro;&nbsp;<span class="event__price-value">${he.encode(basePrice.toString())}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
@@ -88,7 +88,9 @@ export default class Waypoint extends AbstractView {
 
   setRollupClickHandler(callback) {
     this._callback.rollupClick = callback;
-    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._rollupClickHandler);
+    this.getElement()
+      .querySelector('.event__rollup-btn')
+      .addEventListener('click', this._rollupClickHandler);
   }
 
   _favoriteClickHandler(evt) {
@@ -98,8 +100,8 @@ export default class Waypoint extends AbstractView {
 
   setFavoriteClickHandler(callback) {
     this._callback.favoriteClick = callback;
-    this.getElement().querySelector('.event__favorite-btn').addEventListener('click', this._favoriteClickHandler);
+    this.getElement()
+      .querySelector('.event__favorite-btn')
+      .addEventListener('click', this._favoriteClickHandler);
   }
 }
-
-
