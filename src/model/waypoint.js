@@ -6,8 +6,9 @@ export default class Waypoints extends Observer {
     this._waypoints = [];
   }
 
-  set(waypoints) {
+  set(updateType, waypoints) {
     this._waypoints = waypoints.slice();
+    this._notify(updateType);
   }
 
   get() {
@@ -52,5 +53,46 @@ export default class Waypoints extends Observer {
     ];
 
     this._notify(updateType);
+  }
+
+  static adaptToClient(waypoint) {
+    const adaptedWaypoint = Object.assign(
+      {},
+      waypoint,
+      {
+        isFavorite: waypoint.is_favorite,
+        dateFrom: waypoint.date_from != null ? new Date(waypoint.date_from) : waypoint.date_from,
+        dateTo: waypoint.date_to != null ? new Date(waypoint.date_to) : waypoint.date_to,
+        basePrice: waypoint.base_price,
+      },
+    );
+
+    delete adaptedWaypoint.is_favorite;
+    delete adaptedWaypoint.date_from;
+    delete adaptedWaypoint.date_to;
+    delete adaptedWaypoint.base_price;
+
+    return adaptedWaypoint;
+  }
+
+  static adaptToServer(waypoint) {
+    const adaptedWaypoint = Object.assign(
+      {},
+      waypoint,
+      {
+        'date_from': waypoint.dateFrom, //instanceof Date ? waypoint.dateFrom.toISOString() : null, // На сервере дата хранится в ISO формате
+        'date_to': waypoint.dateTo, //instanceof Date ? waypoint.dateTo.toISOString() : null,
+        'is_favorite': waypoint.isFavorite,
+        'base_price': parseInt(waypoint.basePrice, 10),
+      },
+    );
+
+    // Ненужные ключи мы удаляем
+    delete adaptedWaypoint.dateFrom;
+    delete adaptedWaypoint.dateTo;
+    delete adaptedWaypoint.isFavorite;
+    delete adaptedWaypoint.basePrice;
+
+    return adaptedWaypoint;
   }
 }

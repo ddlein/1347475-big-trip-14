@@ -52,6 +52,11 @@ const SortType = {
   PRICE: 'price',
 };
 
+const State = {
+  SAVING: 'SAVING',
+  DELETING: 'DELETING',
+};
+
 const UserActions = {
   UPDATE_WAYPOINT: 'UPDATE_WAYPOINT',
   ADD_WAYPOINT: 'ADD_WAYPOINT',
@@ -62,6 +67,7 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT',
 };
 
 const FilterType = {
@@ -75,4 +81,16 @@ const MenuItem = {
   STATS: 'Stats',
 };
 
-export {TYPES, CITIES, OFFERS, DESCRIPTION, SortType, UserActions, UpdateType, FilterType, MenuItem};
+ const ButtonState = {
+  DISABLED: 'disabled',
+  SAVING: 'Saving...',
+  DELETING: 'Deleting...',
+};
+
+ const ButtonName = {
+  CLOSE: 'Close',
+  SAVE: 'Save',
+  DELETE: 'Delete',
+};
+
+export {TYPES, CITIES, OFFERS, DESCRIPTION, SortType, UserActions, UpdateType, FilterType, MenuItem, State, ButtonState, ButtonName};

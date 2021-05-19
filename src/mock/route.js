@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import {TYPES, CITIES, OFFERS, DESCRIPTION} from '../const.js';
 import {getRandomInteger, generateFromArray, generateFromArraySlice} from '../utils/common.js';
-import {nanoid} from 'nanoid';
+// import {nanoid} from 'nanoid';
 
 
 const generatePhoto = () => {

@@ -1,5 +1,4 @@
 import { remove, render, RenderPosition } from '../utils/render';
-import {nanoid} from 'nanoid';
 import {UserActions, UpdateType} from '../const';
 import WaypointEditView from '../view/waypoint-edit';
 import {isEscEvent} from '../utils/common';
@@ -24,6 +23,7 @@ export default class WaypointNew {
     this._waypointEditComponent = new WaypointEditView(typesAndOffers, citiesWithPhotosAndDescription);
     this._waypointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._waypointEditComponent.setDeleteClickHandler(this._handleDeleteClick);
+    //this._waypointEditComponent.setFormCancelClickHandler(this._handleDeleteClick);
 
     render(this._waypointListContainer, this._waypointEditComponent, RenderPosition.AFTERBEGIN);
 
@@ -41,18 +41,26 @@ export default class WaypointNew {
     document.removeEventListener('keydown', this._escKeyDownHandler);
   }
 
+  setSaving() {
+    this._waypointEditComponent.updateData({
+      isDisabled: true,
+      isSaving: true,
+    });
+  }
+
   _handleFormSubmit(waypoint) {
     this._changeData(
       UserActions.ADD_WAYPOINT,
       UpdateType.MINOR,
-
-      Object.assign({id: nanoid()}, waypoint),
+      waypoint,
+      //Object.assign({id: nanoid()}, waypoint),
     );
 
-    this.destroy();
+    //this.destroy();
   }
 
   _handleDeleteClick() {
+    console.log('del');
     this.destroy();
   }
 

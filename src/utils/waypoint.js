@@ -128,12 +128,13 @@ const isDateFromMoreDateTo = (dateFrom, dateTo)  => {
   }
 };
 
-const isFuture = (dateFrom) => {
-  return dayjs(dateFrom) > dayjs();
+const isFuture = (dateFrom, dateTo) => {
+  return (dayjs(dateFrom) > dayjs() || (dayjs(dateFrom) < dayjs() && dayjs(dateTo) > dayjs()));
 };
 
-const isPast = (dateFrom) => {
-  return dayjs(dateFrom) < dayjs();
+const isPast = (dateFrom, dateTo) => {
+  return (dayjs(dateFrom) < dayjs() || (dayjs(dateFrom) < dayjs() && dayjs(dateTo) > dayjs()));
+  //return dayjs(dateFrom) < dayjs();
 };
 
 export {
