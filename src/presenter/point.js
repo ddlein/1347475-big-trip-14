@@ -1,8 +1,8 @@
 import WaypointView from '../view/waypoint';
 import WaypointEditView from '../view/waypoint-edit';
-import {remove, render, replace} from '../utils/render';
-import {isEscEvent} from '../utils/common';
-import {UserActions, UpdateType, State} from '../const';
+import { remove, render, replace } from '../utils/render';
+import { isEscEvent } from '../utils/common';
+import { UserActions, UpdateType, State } from '../const';
 import { newPointButtonComponent } from '../main.js';
 
 
@@ -38,15 +38,12 @@ export default class Point {
   init(waypoint) {
     this._waypoint = waypoint;
 
-    // this._typesAndOffers = typesAndOffers;
-    // this._citiesWithPhotosAndDescription = citiesWithPhotosAndDescription;
 
     const prevWaypointComponent = this._waypointComponent;
     const prevWaypointEditComponent = this._waypointEditComponent;
 
-    //console.log(this._offersModel.get());
     this._waypointComponent = new WaypointView(waypoint);
-    this._waypointEditComponent = new WaypointEditView( this._offersModel.get(), this._destinationModel.get(), waypoint);
+    this._waypointEditComponent = new WaypointEditView(this._offersModel.get(), this._destinationModel.get(), waypoint);
 
     this._waypointComponent.setRollupClickHandler(this._handleEditClick);
     this._waypointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
@@ -64,7 +61,6 @@ export default class Point {
     }
 
     if (this._mode === Mode.EDITING) {
-      //replace(this._waypointEditComponent, prevWaypointEditComponent);
       replace(this._waypointComponent, prevWaypointEditComponent);
       this._mode = Mode.DEFAULT;
     }
@@ -84,6 +80,14 @@ export default class Point {
   }
 
   setViewState(state) {
+    const resetFormState = () => {
+      this._waypointEditComponent.updateData({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
     switch (state) {
       case State.SAVING:
         this._waypointEditComponent.updateData({
@@ -96,6 +100,10 @@ export default class Point {
           isDisabled: true,
           isDeleting: true,
         });
+        break;
+      case State.ABORTING:
+        this._waypointComponent.shake(resetFormState);
+        this._waypointEditComponent.shake(resetFormState);
         break;
     }
   }
@@ -158,6 +166,5 @@ export default class Point {
     this._changeData(
       UserActions.UPDATE_WAYPOINT,
       UpdateType.MINOR, waypoint);
-    //this._replaceWaypointToList();
   }
 }

@@ -18,7 +18,6 @@ export default class TripInfo {
     const prevTripInfoComponent = this._tripInfoComponent;
 
     this._points = this._waypointsModel.get();
-    //console.log(this._points);
     if (this._points.length) {
       this._tripInfoComponent = new TripInfoView(this._points);
 

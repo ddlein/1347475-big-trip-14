@@ -55,6 +55,7 @@ const SortType = {
 const State = {
   SAVING: 'SAVING',
   DELETING: 'DELETING',
+  ABORTING: 'ABORTING',
 };
 
 const UserActions = {
@@ -81,16 +82,16 @@ const MenuItem = {
   STATS: 'Stats',
 };
 
- const ButtonState = {
+const ButtonState = {
   DISABLED: 'disabled',
   SAVING: 'Saving...',
   DELETING: 'Deleting...',
 };
 
- const ButtonName = {
+const ButtonName = {
   CLOSE: 'Close',
   SAVE: 'Save',
   DELETE: 'Delete',
 };
 
-export {TYPES, CITIES, OFFERS, DESCRIPTION, SortType, UserActions, UpdateType, FilterType, MenuItem, State, ButtonState, ButtonName};
+export { TYPES, CITIES, OFFERS, DESCRIPTION, SortType, UserActions, UpdateType, FilterType, MenuItem, State, ButtonState, ButtonName };

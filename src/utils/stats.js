@@ -1,10 +1,10 @@
-import {getDiffTimeInMinutes, getParsedDurationFromMinutes} from './waypoint';
+import { getDiffTimeInMinutes, getParsedDurationFromMinutes } from './waypoint';
 
 const makeItemsUniq = (items) => [...new Set(items)];
 
 const countWayPointsByType = (waypoints, type) => {
   const waypointsCount = waypoints.filter((waypoint) => waypoint.type === type).length;
-  return {type, waypointsCount};
+  return { type, waypointsCount };
 };
 
 const countPriceWaypointsByType = (waypoints, type) => {
@@ -15,7 +15,7 @@ const countPriceWaypointsByType = (waypoints, type) => {
     price += waypoint.basePrice;
   });
 
-  return {type, price};
+  return { type, price };
 };
 
 const countMinutesWaypointsByType = (waypoints, type) => {
@@ -25,7 +25,7 @@ const countMinutesWaypointsByType = (waypoints, type) => {
   filteredWaypoints.forEach((waypoint) => {
     timeInMinutes += getDiffTimeInMinutes(waypoint.dateFrom, waypoint.dateTo);
   });
-  return {type, timeInMinutes};
+  return { type, timeInMinutes };
 };
 
 const countTimeWaypointsByType = (waypoints, type) => {
@@ -39,4 +39,4 @@ const countTimeWaypointsByType = (waypoints, type) => {
   return getParsedDurationFromMinutes(timeInMinutes);
 };
 
-export {makeItemsUniq, countWayPointsByType, countPriceWaypointsByType, countTimeWaypointsByType, countMinutesWaypointsByType};
+export { makeItemsUniq, countWayPointsByType, countPriceWaypointsByType, countTimeWaypointsByType, countMinutesWaypointsByType };

@@ -1,4 +1,4 @@
-import { formatDateForEditPoint, isDateFromMoreDateTo } from '../utils/waypoint.js';
+import { formatDateForEditPoint } from '../utils/waypoint.js';
 import SmartView from './smart';
 import flatpickr from 'flatpickr';
 import dayjs from 'dayjs';
@@ -7,7 +7,6 @@ import { ButtonState, ButtonName } from '../const.js';
 
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 import { newPointButtonComponent } from '../main.js';
-//import { name } from 'dayjs/locale/*';
 
 
 const BLANK_WAYPOINT = {
@@ -54,7 +53,6 @@ const isAvailableOffer = (defaultOffers, type, offers) => {
 const isPhotoAvailable = (destination, citiesPhotosDescription) => {
   let destinationPhotos = [];
 
-  //console.log(citiesPhotosDescription);
   if (citiesPhotosDescription !== null && destination !== undefined && destination !== null) {
     const destinationChanged = citiesPhotosDescription.filter(
       (cityPhotoDescription) => {
@@ -79,7 +77,6 @@ const isPhotoAvailable = (destination, citiesPhotosDescription) => {
 
 const isDescriptionAvailable = (city, citiesPhotosDescription) => {
   let resultDescription = '';
-  //console.log(city);
 
   if (city !== null && city != undefined && citiesPhotosDescription !== null) {
 
@@ -105,11 +102,9 @@ const isDescriptionAvailable = (city, citiesPhotosDescription) => {
 
 const createTypes = (defaultOffers) => {
   const types = [];
-  //console.log(defaultOffers);
 
 
   for (let i = 0; i < defaultOffers.length; i++) {
-    //console.log(defaultOffers[i].type);
     types.push(`<div class="event__type-item">
              <input id="event-type-${defaultOffers[i].type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${defaultOffers[i].type}">
             <label class="event__type-label  event__type-label--${defaultOffers[i].type}" for="event-type-${defaultOffers[i].type}-1">${defaultOffers[i].type.charAt(0).toUpperCase() + defaultOffers[i].type.slice(1)}</label>
@@ -129,7 +124,6 @@ const createTypes = (defaultOffers) => {
 };
 
 const createOptionCity = (defaultCities) => {
-  //console.log(defaultCities);
   const cities = [];
   if (defaultCities !== null) {
     for (let i = 0; i < defaultCities.length; i++) {
@@ -150,7 +144,6 @@ const createEditFormTemplate = (data) => {
     offers,
     defaultOffers,
     defaultCitiesWithPhotoAndDescription,
-    isDisabled,
     isSaving,
     isDeleting,
   } = data;
@@ -188,7 +181,7 @@ const createEditFormTemplate = (data) => {
           <span class="visually-hidden">Price</span>
           &euro;
         </label>
-        <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${he.encode(basePrice.toString())}" required>
+        <input class="event__input  event__input--price" id="event-price-1" type="number" min="0" name="event-price" value="${he.encode(basePrice.toString())}" required>
       </div>
       <button class="event__save-btn  btn  btn--blue" type="submit" ${isDeleting ? ButtonState.DISABLED : ''}>
       ${isSaving ? ButtonState.SAVING : ButtonName.SAVE}</button>
@@ -209,7 +202,6 @@ const createEditFormTemplate = (data) => {
 
 export default class WaypointEdit extends SmartView {
   constructor(offers, photos, point = BLANK_WAYPOINT) {
-    //console.log(point);
     super();
     this._data = null;
     this._data = WaypointEdit.parseWaypointToData(point, offers, photos);
@@ -270,7 +262,6 @@ export default class WaypointEdit extends SmartView {
     this._setDatepickerFrom();
     this._setDatepickerTo();
     this.setDeleteClickHandler(this._callback.formDelete);
-    //this.setOffersClickHandler();
   }
 
   _setDatepickerFrom() {
@@ -313,7 +304,6 @@ export default class WaypointEdit extends SmartView {
 
   _typePointToggleHandler(evt) {
     evt.preventDefault();
-    //метод очищающий офферы при смене типа
     this.updateData({
       type: evt.target.value,
       offers: [],
@@ -352,28 +342,20 @@ export default class WaypointEdit extends SmartView {
 
   _formDeleteClickHandler(evt) {
     evt.preventDefault();
-    //console.log(this._callback);
     newPointButtonComponent.removeDisabled();
     this._callback.formDelete(WaypointEdit.parseDataToWaypoint(this._data));
   }
 
   _offersClickHandler(evt) {
     evt.preventDefault();
-    //console.log(this._data);
     const offersByType = this._data.defaultOffers.filter(
       (offer) => {
         return offer.type === this._data.type;
       },
     )[0].offers;
     const changedOffers = this._data.offers.slice();
-    //console.log(evt.target.id);
-    //console.log(offersByType[0].offers);
-    //console.log(optionChecked);
-    //console.log(this._data.offers);
     const offerInPointOffers = changedOffers.find((offer) => offer.title === evt.target.id);
-    //console.log(offerInPointOffers);
     const indexOfferFromPointOffer = changedOffers.indexOf(offerInPointOffers);
-    //console.log(indexOfferFromPointOffer);
     if (indexOfferFromPointOffer !== -1) {
       changedOffers.splice(indexOfferFromPointOffer, 1);
     }
@@ -382,14 +364,10 @@ export default class WaypointEdit extends SmartView {
       if (optionChecked) {
         changedOffers.push(optionChecked);
       }
-      //console.log(optionChecked);
     }
-    //console.log(this._data.offers);
     this.updateData({
       offers: changedOffers,
     });
-    //создать метод, который будет проверять выбранный тип, офферы в нем и добавлять/удалять новые
-    //this._callback.offersClick();
   }
 
   setFormSubmitHandler(callback) {
@@ -397,9 +375,6 @@ export default class WaypointEdit extends SmartView {
     this.getElement().querySelector('form').addEventListener('submit', this._formSubmitHandler);
   }
 
-  // setOffersClickHandler() {
-
-  // }
 
   setFormCancelClickHandler(callback) {
     this._callback.formCancel = callback;

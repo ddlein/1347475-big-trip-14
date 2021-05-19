@@ -25,12 +25,12 @@ const getDiffTimeInMinutes = (dateFrom, dateTo) => {
 
 const getParsedDurationFromMinutes = (minutes) => {
   const hours = Math.floor(minutes / MINUTES_IN_HOURS);
-  const days =  Math.floor(hours / HOURS_IN_DAY);
+  const days = Math.floor(hours / HOURS_IN_DAY);
   minutes = minutes - (hours * MINUTES_IN_HOURS);
 
-  if(days === 0){
-    if(hours === 0){
-      return  `${minutes}M`;
+  if (days === 0) {
+    if (hours === 0) {
+      return `${minutes}M`;
     }
     return `${hours}H ${minutes}M`;
   }
@@ -94,7 +94,7 @@ const sortByTime = (point1, point2) => {
     return 1;
   }
 
-  if ((dayjs(point1.dateTo) - dayjs(point1.dateFrom)) > (dayjs(point2.dateTo) -dayjs(point2.dateFrom))) {
+  if ((dayjs(point1.dateTo) - dayjs(point1.dateFrom)) > (dayjs(point2.dateTo) - dayjs(point2.dateFrom))) {
     return -1;
   }
   return 0;
@@ -108,7 +108,7 @@ const sortByOffers = (point1, point2) => {
   if (point1.offers.length > point2.offers.length) {
     return -1;
   }
-  return  0;
+  return 0;
 };
 
 const sortByEvent = (point1, point2) => {
@@ -119,10 +119,10 @@ const sortByEvent = (point1, point2) => {
   if (point1.type < point2.type) {
     return -1;
   }
-  return  0;
+  return 0;
 };
 
-const isDateFromMoreDateTo = (dateFrom, dateTo)  => {
+const isDateFromMoreDateTo = (dateFrom, dateTo) => {
   if (dayjs(dateFrom) > dayjs(dateTo)) {
     return true;
   }
@@ -134,9 +134,8 @@ const isFuture = (dateFrom, dateTo) => {
 
 const isPast = (dateFrom, dateTo) => {
   return (dayjs(dateFrom) < dayjs() || (dayjs(dateFrom) < dayjs() && dayjs(dateTo) > dayjs()));
-  //return dayjs(dateFrom) < dayjs();
 };
 
 export {
-  getTime, formatDateForEditPoint, getDiffTime, getDateForList, getTotalDate, sortByDay, sortByPrice, sortByTime, sortByOffers, sortByEvent, isDateFromMoreDateTo, isFuture, isPast,getDiffTimeInMinutes, getParsedDurationFromMinutes
+  getTime, formatDateForEditPoint, getDiffTime, getDateForList, getTotalDate, sortByDay, sortByPrice, sortByTime, sortByOffers, sortByEvent, isDateFromMoreDateTo, isFuture, isPast, getDiffTimeInMinutes, getParsedDurationFromMinutes
 };

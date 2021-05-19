@@ -36,13 +36,11 @@ export default class Api {
   }
 
   addPoint(point) {
-    //console.log(point);
-    //console.log(JSON.stringify(PointsModel.adaptToServer(point)));
     return this._load({
       url: 'points',
       method: Method.POST,
       body: JSON.stringify(PointsModel.adaptToServer(point)),
-      headers: new Headers({'Content-Type': 'application/json'}),
+      headers: new Headers({ 'Content-Type': 'application/json' }),
     })
       .then(Api.toJSON)
       .then(PointsModel.adaptToClient);
@@ -60,7 +58,7 @@ export default class Api {
       url: 'points/sync',
       method: Method.POST,
       body: JSON.stringify(data),
-      headers: new Headers({'Content-Type': 'application/json'}),
+      headers: new Headers({ 'Content-Type': 'application/json' }),
     })
       .then(Api.toJSON);
   }

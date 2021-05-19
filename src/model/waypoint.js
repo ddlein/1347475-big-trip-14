@@ -80,14 +80,13 @@ export default class Waypoints extends Observer {
       {},
       waypoint,
       {
-        'date_from': waypoint.dateFrom, //instanceof Date ? waypoint.dateFrom.toISOString() : null, // На сервере дата хранится в ISO формате
-        'date_to': waypoint.dateTo, //instanceof Date ? waypoint.dateTo.toISOString() : null,
+        'date_from': waypoint.dateFrom,
+        'date_to': waypoint.dateTo,
         'is_favorite': waypoint.isFavorite,
         'base_price': parseInt(waypoint.basePrice, 10),
       },
     );
 
-    // Ненужные ключи мы удаляем
     delete adaptedWaypoint.dateFrom;
     delete adaptedWaypoint.dateTo;
     delete adaptedWaypoint.isFavorite;

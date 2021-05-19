@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import {TYPES, CITIES, OFFERS, DESCRIPTION} from '../const.js';
 import {getRandomInteger, generateFromArray, generateFromArraySlice} from '../utils/common.js';
-// import {nanoid} from 'nanoid';
 
 
 const generatePhoto = () => {
@@ -31,7 +30,6 @@ const generateRoute = () => {
   const getType = generateFromArray(TYPES);
 
   return {
-    id: nanoid(),
     type: getType,
     basePrice: getRandomInteger(1000, 10000),
     destination: generateFromArray(CITIES),
