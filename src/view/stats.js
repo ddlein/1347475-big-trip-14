@@ -1,12 +1,12 @@
 import SmartView from './smart.js';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {makeItemsUniq, countWayPointsByType, countPriceWaypointsByType, countMinutesWaypointsByType} from '../utils/stats';
-import {getParsedDurationFromMinutes} from '../utils/waypoint';
+import { makeItemsUniq, countWayPointsByType, countPriceWaypointsByType, countMinutesWaypointsByType } from '../utils/stats';
+import { getParsedDurationFromMinutes } from '../utils/waypoint';
 
 const BAR_HEIGHT = 55;
 
-const renderMoneyChart = (moneyCtx, waypoints,uniqTypes) => {
+const renderMoneyChart = (moneyCtx, waypoints, uniqTypes) => {
   const totalSumPriceByType = uniqTypes.map((type) => countPriceWaypointsByType(waypoints, type));
 
   const sortable = totalSumPriceByType.sort((a, b) => (a.price < b.price) ? 1 : -1);

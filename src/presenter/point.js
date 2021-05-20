@@ -1,8 +1,9 @@
 import WaypointView from '../view/waypoint';
 import WaypointEditView from '../view/waypoint-edit';
-import {remove, render, replace} from '../utils/render';
-import {isEscEvent} from '../utils/common';
-import {UserActions, UpdateType} from '../const';
+import { remove, render, replace } from '../utils/render';
+import { isEscEvent } from '../utils/common';
+import { UserActions, UpdateType, State } from '../const';
+import { newPointButtonComponent } from '../main.js';
 
 
 const Mode = {
@@ -11,10 +12,13 @@ const Mode = {
 };
 
 export default class Point {
-  constructor(tripListContainer, changeData, changeMode) {
+  constructor(tripListContainer, changeData, changeMode, offersModel, destinationModel) {
     this._tripListContainer = tripListContainer;
     this._changeData = changeData;
     this._changeMode = changeMode;
+
+    this._offersModel = offersModel;
+    this._destinationModel = destinationModel;
 
     this._typesAndOffers = [];
     this._citiesWithPhotosAndDescription = [];
@@ -27,26 +31,24 @@ export default class Point {
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
     this._handleFormCancel = this._handleFormCancel.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
-
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
   }
 
-  init(waypoint, typesAndOffers, citiesWithPhotosAndDescription) {
+  init(waypoint) {
     this._waypoint = waypoint;
 
-    this._typesAndOffers = typesAndOffers;
-    this._citiesWithPhotosAndDescription = citiesWithPhotosAndDescription;
 
     const prevWaypointComponent = this._waypointComponent;
     const prevWaypointEditComponent = this._waypointEditComponent;
 
     this._waypointComponent = new WaypointView(waypoint);
-    this._waypointEditComponent = new WaypointEditView( typesAndOffers, citiesWithPhotosAndDescription, waypoint);
+    this._waypointEditComponent = new WaypointEditView(this._offersModel.get(), this._destinationModel.get(), waypoint);
 
     this._waypointComponent.setRollupClickHandler(this._handleEditClick);
     this._waypointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
-    this._waypointEditComponent.setFormClickHandler(this._handleFormCancel);
-
+    this._waypointEditComponent.setFormCancelClickHandler(this._handleFormCancel);
+    this._waypointEditComponent.setDeleteClickHandler(this._handleDeleteClick);
     this._waypointComponent.setFavoriteClickHandler(this._handleFavoriteClick);
 
     if (prevWaypointComponent === null || prevWaypointEditComponent === null) {
@@ -59,7 +61,8 @@ export default class Point {
     }
 
     if (this._mode === Mode.EDITING) {
-      replace(this._waypointEditComponent, prevWaypointEditComponent);
+      replace(this._waypointComponent, prevWaypointEditComponent);
+      this._mode = Mode.DEFAULT;
     }
     remove(prevWaypointComponent);
     remove(prevWaypointEditComponent);
@@ -76,7 +79,38 @@ export default class Point {
     }
   }
 
+  setViewState(state) {
+    const resetFormState = () => {
+      this._waypointEditComponent.updateData({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    switch (state) {
+      case State.SAVING:
+        this._waypointEditComponent.updateData({
+          isDisabled: true,
+          isSaving: true,
+        });
+        break;
+      case State.DELETING:
+        this._waypointEditComponent.updateData({
+          isDisabled: true,
+          isDeleting: true,
+        });
+        break;
+      case State.ABORTING:
+        this._waypointComponent.shake(resetFormState);
+        this._waypointEditComponent.shake(resetFormState);
+        break;
+    }
+  }
+
   _replaceWaypointToEdit() {
+    newPointButtonComponent.removeDisabled();
+    this._waypointEditComponent.reset(this._waypoint, this._offersModel.get(), this._destinationModel.get());
     replace(this._waypointEditComponent, this._waypointComponent);
     document.addEventListener('keydown', this._escKeyDownHandler);
     this._changeMode();
@@ -92,7 +126,7 @@ export default class Point {
   _escKeyDownHandler(evt) {
     if (isEscEvent(evt)) {
       evt.preventDefault();
-      this._waypointEditComponent.reset(this._waypoint, this._typesAndOffers, this._citiesWithPhotosAndDescription);
+      this._waypointEditComponent.reset(this._waypoint, this._offersModel.get(), this._destinationModel.get());
       this._replaceWaypointToList();
     }
   }
@@ -115,16 +149,16 @@ export default class Point {
     this._replaceWaypointToEdit();
   }
 
-  _handleDeleteClick(task) {
+  _handleDeleteClick(waypoint) {
     this._changeData(
-      UserActions.DELETE_TASK,
+      UserActions.DELETE_WAYPOINT,
       UpdateType.MINOR,
-      task,
+      waypoint,
     );
   }
 
   _handleFormCancel() {
-    this._waypointEditComponent.reset(this._waypoint, this._typesAndOffers, this._citiesWithPhotosAndDescription);
+    this._waypointEditComponent.reset(this._waypoint, this._offersModel.get(), this._destinationModel.get());
     this._replaceWaypointToList();
   }
 
@@ -132,6 +166,5 @@ export default class Point {
     this._changeData(
       UserActions.UPDATE_WAYPOINT,
       UpdateType.MINOR, waypoint);
-    this._replaceWaypointToList();
   }
 }
