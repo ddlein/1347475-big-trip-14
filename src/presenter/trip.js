@@ -123,7 +123,7 @@ export default class Trip {
     switch (actionType) {
       case UserActions.UPDATE_WAYPOINT:
         this._pointPresenter[update.id].setViewState(PointPresenterViewState.SAVING);
-        this._api.updatePoints(update)
+        this._api.updatePoint(update)
           .then((response) => {
             this._waypointsModel.update(updateType, response);
           })

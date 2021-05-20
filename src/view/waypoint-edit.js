@@ -1,12 +1,12 @@
-import { formatDateForEditPoint } from '../utils/waypoint.js';
+import {formatDateForEditPoint} from '../utils/waypoint.js';
 import SmartView from './smart';
 import flatpickr from 'flatpickr';
 import dayjs from 'dayjs';
 import he from 'he';
-import { ButtonState, ButtonName } from '../const.js';
+import {ButtonState, ButtonName} from '../const.js';
 
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
-import { newPointButtonComponent } from '../main.js';
+import {newPointButtonComponent} from '../main.js';
 
 
 const BLANK_WAYPOINT = {
@@ -40,13 +40,17 @@ const isAvailableOffer = (defaultOffers, type, offers) => {
     },
   );
   for (let i = 0; i < offersChanged.length; i++) {
-    offerTags = offersChanged[i].offers.map(({ title, price }) => createOffer(title, price, offers !== undefined ? offers.some((offer) => offer.title === title) : false));
+    offerTags = offersChanged[i].offers.map(({
+      title,
+      price,
+    }) => createOffer(title, price, offers !== undefined ? offers.some((offer) => offer.title === title) : false));
   }
-  if (offerTags.length !== 0) {
-    return offerTags.join('');
-  } else {
-    return '';
-  }
+  return offerTags.length !== 0 ? offerTags.join('') : '';
+  // if (offerTags.length !== 0) {
+  //   return offerTags.join('');
+  // } else {
+  //   return '';
+  // }
 };
 
 
@@ -61,24 +65,33 @@ const isPhotoAvailable = (destination, citiesPhotosDescription) => {
     );
 
     for (let i = 0; i < destinationChanged.length; i++) {
-      destinationPhotos = destinationChanged[i].pictures.map(({ src }) => `<img class="event__photo" src="${src}" alt="Event photo">`);
+      destinationPhotos = destinationChanged[i].pictures.map(({src}) => `<img class="event__photo" src="${src}" alt="Event photo">`);
     }
-    if (destinationPhotos.length !== 0) {
 
-      return `<div class="event__photos-container">
+    return destinationPhotos.length !== 0 ?
+      `<div class="event__photos-container">
                 <div class="event__photos-tape">
                   ${destinationPhotos.join('')}
-                </div>`;
-    }
-  } else {
-    return '';
+                </div>`
+      : '';
+
+    //   if (destinationPhotos.length !== 0) {
+    //
+    //     return `<div class="event__photos-container">
+    //               <div class="event__photos-tape">
+    //                 ${destinationPhotos.join('')}
+    //               </div>`;
+    //   }
+    // } else {
+    //   return '';
+    // }
   }
 };
 
 const isDescriptionAvailable = (city, citiesPhotosDescription) => {
   let resultDescription = '';
 
-  if (city !== null && city != undefined && citiesPhotosDescription !== null) {
+  if (city !== null && city !== undefined && citiesPhotosDescription !== null) {
 
     const destinationChanged = citiesPhotosDescription.filter(
       (destination) => {
@@ -183,9 +196,9 @@ const createEditFormTemplate = (data) => {
         </label>
         <input class="event__input  event__input--price" id="event-price-1" type="number" min="0" name="event-price" value="${he.encode(basePrice.toString())}" required>
       </div>
-      <button class="event__save-btn  btn  btn--blue" type="submit" ${isDeleting ? ButtonState.DISABLED : ''}>
+      <button class="event__save-btn  btn  btn--blue" type="submit" ${isDeleting ? 'disabled' : ''}>
       ${isSaving ? ButtonState.SAVING : ButtonName.SAVE}</button>
-      <button class="event__reset-btn" type="reset" ${isSaving ? ButtonState.DISABLED : ''}>
+      <button class="event__reset-btn" type="reset" ${isSaving ? 'disabled' : ''}>
       ${!newPointButtonComponent.isActive() ? (isDeleting ? ButtonState.DELETING : ButtonName.DELETE) : ButtonName.CLOSE}</button>
       ${!newPointButtonComponent.isActive() ? '<button class="event__rollup-btn event__rollup-btn--close" type="button">' : ''}
         <span class="visually-hidden">Open event</span>
@@ -358,8 +371,7 @@ export default class WaypointEdit extends SmartView {
     const indexOfferFromPointOffer = changedOffers.indexOf(offerInPointOffers);
     if (indexOfferFromPointOffer !== -1) {
       changedOffers.splice(indexOfferFromPointOffer, 1);
-    }
-    else {
+    } else {
       const optionChecked = offersByType.find((offer) => offer.title === evt.target.id);
       if (optionChecked) {
         changedOffers.push(optionChecked);

@@ -70,7 +70,6 @@ const UpdateType = {
   MAJOR: 'MAJOR',
   INIT: 'INIT',
 };
-
 const FilterType = {
   EVERYTHING: 'EVERYTHING',
   FUTURE: 'FUTURE',
@@ -83,7 +82,6 @@ const MenuItem = {
 };
 
 const ButtonState = {
-  DISABLED: 'disabled',
   SAVING: 'Saving...',
   DELETING: 'Deleting...',
 };

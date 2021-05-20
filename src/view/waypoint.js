@@ -1,4 +1,4 @@
-import { getTime, getDiffTime, getDateForList } from '../utils/waypoint.js';
+import {getTime, getDiffTime, getDateForList} from '../utils/waypoint.js';
 import AbstractView from './abstract';
 import he from 'he';
 
@@ -11,17 +11,18 @@ const createOfferForList = (offer, price) => {
 };
 
 const createWaypointsTemplate = (route) => {
-  const { type, basePrice, destination, isFavorite, dateFrom, dateTo, offers } =
+  const {type, basePrice, destination, isFavorite, dateFrom, dateTo, offers} =
     route;
 
   const offerList = [];
 
   const isFavoriteF = () => {
-    if (isFavorite) {
-      return 'event__favorite-btn--active';
-    } else {
-      return '';
-    }
+    return isFavorite ? 'event__favorite-btn--active' : '';
+    // if (isFavorite) {
+    //   return 'event__favorite-btn--active';
+    // } else {
+    //   return '';
+    // }
   };
 
   for (let i = 0; i < offers.length; i++) {

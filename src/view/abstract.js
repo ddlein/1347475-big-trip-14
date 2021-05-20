@@ -1,4 +1,5 @@
-import { createElement } from '../utils/render.js';
+import {createElement} from '../utils/render.js';
+
 const SHAKE_ANIMATION_TIMEOUT = 600;
 
 export default class Abstract {
@@ -16,11 +17,12 @@ export default class Abstract {
   }
 
   getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+    return !this._element ? createElement(this.getTemplate()) : this._element;
+    // if (!this._element) {
+    //   this._element = createElement(this.getTemplate());
+    // }
+    //
+    // return this._element;
   }
 
   removeElement() {
