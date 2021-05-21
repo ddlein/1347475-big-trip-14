@@ -34,7 +34,6 @@ const eventsElement = mainElement.querySelector('.trip-events');
 const mainContainer = mainElement.querySelector('.page-body__container');
 
 const api = new Api(END_POINT, AUTHORIZATION);
-
 const store = new Store(STORE_NAME, window.localStorage);
 const apiWithProvider = new Provider(api, store);
 
@@ -80,7 +79,6 @@ newPointButtonComponent.setClickHandler(() => {
 });
 
 tripPresenter.init();
-console.log(123);
 const handleSiteMenuClick = (menuItem) => {
   switch (menuItem) {
     case MenuItem.TABLE:
@@ -106,19 +104,22 @@ Promise.all([
   offersModel.set(offers);
   destinationsModel.set(destinations);
   waypointsModel.set(UpdateType.INIT, points);
+  //console.log(points);
   tripInfoPresenter.init();
   filterPresenter.init();
   render(menuElement, siteMenuComponent);
   siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
   render(tripMainElement, newPointButtonComponent);
 })
-  .catch(() => {
+  .catch((/*e*/) => {
+    // console.log(e);
     offersModel.set([]);
     destinationsModel.set([]);
     waypointsModel.set(UpdateType.INIT, []);
     render(menuElement, siteMenuComponent);
     siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
   });
+
 
 window.addEventListener('load', () => {
   navigator.serviceWorker.register('/sw.js');

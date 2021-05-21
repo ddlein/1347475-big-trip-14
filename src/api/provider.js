@@ -35,23 +35,39 @@ export default class Provider {
     return Promise.resolve(storeTasks.map(PointModel.adaptToClient));
   }
 
-  updatePoint(task) {
+  getOffers() {
     if (isOnline()) {
-      return this._api.updatePoint(task)
+      return this._api.getOffers().then((offers) => {
+        return offers;
+      });
+    }
+  }
+
+  getDestinations() {
+    if (isOnline()) {
+      return this._api.getDestinations().then((destinations) => {
+        return destinations;
+      });
+    }
+  }
+
+  updatePoint(point) {
+    if (isOnline()) {
+      return this._api.updatePoint(point)
         .then((updatedPoint) => {
           this._store.setItem(updatedPoint.id, PointModel.adaptToServer(updatedPoint));
           return updatedPoint;
         });
     }
 
-    this._store.setItem(task.id, PointModel.adaptToServer(Object.assign({}, task)));
+    this._store.setItem(point.id, PointModel.adaptToServer(Object.assign({}, point)));
 
-    return Promise.resolve(task);
+    return Promise.resolve(point);
   }
 
-  addPoint(task) {
+  addPoint(point) {
     if (isOnline()) {
-      return this._api.addPoint(task)
+      return this._api.addPoint(point)
         .then((newPoint) => {
           this._store.setItem(newPoint.id, PointModel.adaptToServer(newPoint));
           return newPoint;
@@ -61,7 +77,7 @@ export default class Provider {
     return Promise.reject(new Error('Add point failed'));
   }
 
-  deleteTask(point) {
+  deletePoint(point) {
     if (isOnline()) {
       return this._api.deletePoint(point)
         .then(() => this._store.removeItem(point.id));

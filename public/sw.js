@@ -1,4 +1,4 @@
-const CACHE_PREFIX = 'bigTrip-cache';
+const CACHE_PREFIX = 'big-trip-cache';
 const CACHE_VER = 'v14';
 const CACHE_NAME = `${CACHE_PREFIX}-${CACHE_VER}`;
 
@@ -32,6 +32,11 @@ self.addEventListener('install', (evt) => {
           '/img/icons/taxi.png',
           '/img/icons/train.png',
           '/img/icons/transport.png',
+          '/img/photos/1.jpg',
+          '/img/photos/2.jpg',
+          '/img/photos/3.jpg',
+          '/img/photos/4.jpg',
+          '/img/photos/5.jpg',
         ]);
       }),
   );
@@ -63,8 +68,7 @@ self.addEventListener('activate', (evt) => {
 });
 
 const handleFetch = (evt) => {
-  const {request} = evt;
-
+  const { request } = evt;
   evt.respondWith(
     caches.match(request)
       .then((cacheResponse) => {
@@ -92,7 +96,10 @@ const handleFetch = (evt) => {
 
             // Копию кладём в кэш
             caches.open(CACHE_NAME)
-              .then((cache) => cache.put(request, clonedResponse));
+              .then((cache) => cache.put(request, clonedResponse))
+              .catch((/*e*/) => {
+                // console.log(e);
+              });
 
             // Оригинал передаём дальше
             return response;
