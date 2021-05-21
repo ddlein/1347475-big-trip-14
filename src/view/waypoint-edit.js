@@ -46,11 +46,6 @@ const isAvailableOffer = (defaultOffers, type, offers) => {
     }) => createOffer(title, price, offers !== undefined ? offers.some((offer) => offer.title === title) : false));
   }
   return offerTags.length !== 0 ? offerTags.join('') : '';
-  // if (offerTags.length !== 0) {
-  //   return offerTags.join('');
-  // } else {
-  //   return '';
-  // }
 };
 
 
@@ -74,16 +69,6 @@ const isPhotoAvailable = (destination, citiesPhotosDescription) => {
                 </div>`
       : '';
 
-    //   if (destinationPhotos.length !== 0) {
-    //
-    //     return `<div class="event__photos-container">
-    //               <div class="event__photos-tape">
-    //                 ${destinationPhotos.join('')}
-    //               </div>`;
-    //   }
-    // } else {
-    //   return '';
-    // }
   }
   return '';
 };

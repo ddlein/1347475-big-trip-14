@@ -1,7 +1,7 @@
 import FilterView from '../view/filters.js';
 import {FilterType, UpdateType} from '../const.js';
 import {render, replace, remove} from '../utils/render.js';
-import { filter } from '../utils/filter.js';
+import {filter} from '../utils/filter.js';
 
 export default class Filter {
   constructor(filterContainer, filterModel, waypointsModel) {

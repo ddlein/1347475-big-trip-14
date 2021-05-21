@@ -1,4 +1,4 @@
-import { getTotalDate, sortByDay } from '../utils/waypoint';
+import {getTotalDate, sortByDay} from '../utils/waypoint';
 import AbstractView from './abstract';
 
 const COUNT_POINT = 3;
@@ -10,7 +10,7 @@ const getTrip = (points) => {
   } else {
     const trip = [];
     points.forEach((point) => {
-      if(point.destination !== undefined) {
+      if (point.destination !== undefined) {
         trip.push(point.destination.name);
       }
     });
@@ -18,7 +18,6 @@ const getTrip = (points) => {
   }
 };
 const createRouteTemplate = (points) => {
-  //console.log(points);
   let sum = 0;
   points.forEach((elem) => {
     sum += elem.basePrice;
@@ -54,7 +53,6 @@ export default class TripInfo extends AbstractView {
   }
 
   getTemplate() {
-    //console.log(this._points);
     return createRouteTemplate(this._points);
   }
 }

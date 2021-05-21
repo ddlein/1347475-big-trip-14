@@ -17,16 +17,8 @@ export default class Abstract {
   }
 
   getElement() {
-    //return !this._element ? createElement(this.getTemplate()) : this._element;
-
     this._element = !this._element ? createElement(this.getTemplate()) : this._element;
     return this._element;
-
-    // if (!this._element) {
-    //   this._element = createElement(this.getTemplate());
-    // }
-    //
-    // return this._element;
   }
 
   removeElement() {

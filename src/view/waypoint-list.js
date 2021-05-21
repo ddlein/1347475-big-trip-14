@@ -1,6 +1,6 @@
 import AbstractView from './abstract';
 
-const createWaypointsListTemplate = () =>{
+const createWaypointsListTemplate = () => {
   return '<ul class="trip-events__list"></ul>';
 };
 

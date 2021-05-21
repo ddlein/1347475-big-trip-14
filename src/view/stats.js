@@ -1,8 +1,13 @@
 import SmartView from './smart.js';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { makeItemsUniq, countWayPointsByType, countPriceWaypointsByType, countMinutesWaypointsByType } from '../utils/stats';
-import { getParsedDurationFromMinutes } from '../utils/waypoint';
+import {
+  makeItemsUniq,
+  countWayPointsByType,
+  countPriceWaypointsByType,
+  countMinutesWaypointsByType
+} from '../utils/stats';
+import {getParsedDurationFromMinutes} from '../utils/waypoint';
 
 const BAR_HEIGHT = 55;
 
@@ -245,7 +250,6 @@ export default class Stats extends SmartView {
 
     this._data = {
       waypoints,
-
     };
 
     this._moneyChart = null;
@@ -292,7 +296,7 @@ export default class Stats extends SmartView {
       this._timeSpendChart = null;
     }
 
-    const { waypoints } = this._data;
+    const {waypoints} = this._data;
     const moneyCtx = this.getElement().querySelector('.statistics__chart--money');
     const typeCtx = this.getElement().querySelector('.statistics__chart--transport');
     const timeSpendCtx = this.getElement().querySelector('.statistics__chart--time');

@@ -1,14 +1,14 @@
 import WaypointListView from '../view/waypoint-list';
 import NoWaypointView from '../view/no-waypoint';
-import { render, RenderPosition, remove } from '../utils/render';
+import {render, RenderPosition, remove} from '../utils/render';
 import SortView from '../view/sort';
 import PointPresenter from './point';
 import NewPointPresenter from './new-point-presenter.js';
-import { SortType, UpdateType, UserActions, FilterType, State as PointPresenterViewState } from '../const';
-import { filter } from '../utils/filter.js';
-import { sortByDay, sortByPrice, sortByTime } from '../utils/waypoint';
+import {SortType, UpdateType, UserActions, FilterType, State as PointPresenterViewState} from '../const';
+import {filter} from '../utils/filter.js';
+import {sortByDay, sortByPrice, sortByTime} from '../utils/waypoint';
 import LoadingView from '../view/loading.js';
-import { newPointButtonComponent } from '../main.js';
+import {newPointButtonComponent} from '../main.js';
 
 
 export default class Trip {
@@ -54,7 +54,7 @@ export default class Trip {
 
 
   destroy() {
-    this._clearTrip({ resetSortType: true });
+    this._clearTrip({resetSortType: true});
 
     remove(this._waypointListComponent);
 
@@ -108,7 +108,6 @@ export default class Trip {
     render(this._tripContainer, this._noTripComponent, RenderPosition.AFTERBEGIN);
   }
 
-  //вывод каждого waipoint'a
   _renderWaypoints(waypoints) {
     waypoints.forEach((waypoint) => this._renderWaypoint(waypoint));
   }
@@ -163,7 +162,7 @@ export default class Trip {
         this._renderTrip();
         break;
       case UpdateType.MAJOR:
-        this._clearTrip({ resetSortType: true });
+        this._clearTrip({resetSortType: true});
         this._renderTrip();
         break;
       case UpdateType.INIT:
@@ -174,7 +173,7 @@ export default class Trip {
     }
   }
 
-  _clearTrip({ resetSortType = false } = {}) {
+  _clearTrip({resetSortType = false} = {}) {
     this._newPointPresenter.destroy();
     Object
       .values(this._pointPresenter)

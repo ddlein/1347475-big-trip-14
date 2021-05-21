@@ -1,9 +1,9 @@
 import WaypointView from '../view/waypoint';
 import WaypointEditView from '../view/waypoint-edit';
-import { remove, render, replace } from '../utils/render';
-import { isEscEvent } from '../utils/common';
-import { UserActions, UpdateType, State } from '../const';
-import { newPointButtonComponent } from '../main.js';
+import {remove, render, replace} from '../utils/render';
+import {isEscEvent} from '../utils/common';
+import {UserActions, UpdateType, State} from '../const';
+import {newPointButtonComponent} from '../main.js';
 import {isOnline} from '../utils/common';
 import {toast} from '../utils/toast';
 
