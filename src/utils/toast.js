@@ -5,6 +5,7 @@ toastContainer.classList.add('toast-container');
 document.body.append(toastContainer);
 
 const toast = (message) => {
+  console.log('tsts');
   const toastItem = document.createElement('div');
   toastItem.textContent = message;
   toastItem.classList.add('toast-item');

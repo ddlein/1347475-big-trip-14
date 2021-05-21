@@ -20,7 +20,7 @@ import '../src/mock/route.js';
 
 const AUTHORIZATION = 'Basic kTy9gIdsz2317rD';
 const END_POINT = 'https://14.ecmascript.pages.academy/big-trip';
-const STORE_PREFIX = 'bigTrip-localstorage';
+const STORE_PREFIX = 'bigtrip-localstorage';
 const STORE_VER = 'v14';
 const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
 
@@ -69,6 +69,7 @@ let statisticsComponent = null;
 
 newPointButtonComponent.setClickHandler(() => {
   if (!isOnline()) {
+    console.log(111111111111);
     toast('You can\'t create new point offline');
     siteMenuComponent.setMenuItem(MenuItem.TABLE);
     return;
@@ -97,8 +98,8 @@ const handleSiteMenuClick = (menuItem) => {
 
 
 Promise.all([
-  api.getOffers(),
-  api.getDestinations(),
+  apiWithProvider.getOffers(),
+  apiWithProvider.getDestinations(),
   apiWithProvider.getPoints(),
 ]).then(([offers, destinations, points]) => {
   offersModel.set(offers);
@@ -111,8 +112,8 @@ Promise.all([
   siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
   render(tripMainElement, newPointButtonComponent);
 })
-  .catch((/*e*/) => {
-    // console.log(e);
+  .catch((e) => {
+    console.log(e);
     offersModel.set([]);
     destinationsModel.set([]);
     waypointsModel.set(UpdateType.INIT, []);

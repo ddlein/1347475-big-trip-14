@@ -30,25 +30,35 @@ export default class Provider {
         });
     }
 
-    const storeTasks = Object.values(this._store.getItems());
+    const storePoints = Object.values(this._store.getItems());
 
-    return Promise.resolve(storeTasks.map(PointModel.adaptToClient));
+    return Promise.resolve(storePoints.map(PointModel.adaptToClient));
   }
 
   getOffers() {
     if (isOnline()) {
       return this._api.getOffers().then((offers) => {
+        const items = createStoreStructure(offers);
+        this._store.setItems(items);
         return offers;
       });
     }
+    const storeOffers = Object.values(this._store.getItems());
+
+    return Promise.resolve(storeOffers);
   }
 
   getDestinations() {
     if (isOnline()) {
       return this._api.getDestinations().then((destinations) => {
+        const items = createStoreStructure(destinations);
+        this._store.setItems(items);
         return destinations;
       });
     }
+    const storeDestinations = Object.values(this._store.getItems());
+
+    return Promise.resolve(storeDestinations);
   }
 
   updatePoint(point) {

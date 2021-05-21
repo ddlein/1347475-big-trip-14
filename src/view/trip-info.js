@@ -10,7 +10,9 @@ const getTrip = (points) => {
   } else {
     const trip = [];
     points.forEach((point) => {
-      trip.push(point.destination.namw);
+      if(point.destination !== undefined) {
+        trip.push(point.destination.name);
+      }
     });
     return trip.join(' - ');
   }
