@@ -199,7 +199,6 @@ export default class Trip {
 
     const waypoints = this._getWaypoints();
     const waypointCount = waypoints.length;
-
     if (waypointCount === 0) {
       this._renderNoWaypoints();
       return;

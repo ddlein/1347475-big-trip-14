@@ -56,7 +56,6 @@ const isAvailableOffer = (defaultOffers, type, offers) => {
 
 const isPhotoAvailable = (destination, citiesPhotosDescription) => {
   let destinationPhotos = [];
-
   if (citiesPhotosDescription !== null && destination !== undefined && destination !== null) {
     const destinationChanged = citiesPhotosDescription.filter(
       (cityPhotoDescription) => {
@@ -86,11 +85,11 @@ const isPhotoAvailable = (destination, citiesPhotosDescription) => {
     //   return '';
     // }
   }
+  return '';
 };
 
 const isDescriptionAvailable = (city, citiesPhotosDescription) => {
   let resultDescription = '';
-
   if (city !== null && city !== undefined && citiesPhotosDescription !== null) {
 
     const destinationChanged = citiesPhotosDescription.filter(

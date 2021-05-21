@@ -89,7 +89,6 @@ export default class Provider {
   sync() {
     if (isOnline()) {
       const storePoints = Object.values(this._store.getItems());
-
       return this._api.sync(storePoints)
         .then((response) => {
           // Забираем из ответа синхронизированные задачи
