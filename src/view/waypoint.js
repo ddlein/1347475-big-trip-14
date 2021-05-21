@@ -1,4 +1,4 @@
-import { getTime, getDiffTime, getDateForList } from '../utils/waypoint.js';
+import {getTime, getDiffTime, getDateForList} from '../utils/waypoint.js';
 import AbstractView from './abstract';
 import he from 'he';
 
@@ -11,17 +11,12 @@ const createOfferForList = (offer, price) => {
 };
 
 const createWaypointsTemplate = (route) => {
-  const { type, basePrice, destination, isFavorite, dateFrom, dateTo, offers } =
-    route;
+  const {type, basePrice, destination, isFavorite, dateFrom, dateTo, offers} = route;
 
   const offerList = [];
 
   const isFavoriteF = () => {
-    if (isFavorite) {
-      return 'event__favorite-btn--active';
-    } else {
-      return '';
-    }
+    return isFavorite ? 'event__favorite-btn--active' : '';
   };
 
   for (let i = 0; i < offers.length; i++) {
@@ -39,7 +34,7 @@ const createWaypointsTemplate = (route) => {
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${type} ${destination.name}</h3>
+      <h3 class="event__title">${type} ${destination ? destination.name : ''}</h3>
       <div class="event__schedule">
         <p class="event__time">
           <time class="event__start-time" datetime="2019-03-18T12:25">${timeFrom}</time>
@@ -49,7 +44,7 @@ const createWaypointsTemplate = (route) => {
         <p class="event__duration">${diffTime}</p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">${he.encode(basePrice.toString())}</span>
+        &euro;&nbsp;<span class="event__price-value">${he.encode(basePrice ? basePrice.toString() : '')}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">

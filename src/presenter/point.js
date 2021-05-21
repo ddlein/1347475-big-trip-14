@@ -1,9 +1,11 @@
 import WaypointView from '../view/waypoint';
 import WaypointEditView from '../view/waypoint-edit';
-import { remove, render, replace } from '../utils/render';
-import { isEscEvent } from '../utils/common';
-import { UserActions, UpdateType, State } from '../const';
-import { newPointButtonComponent } from '../main.js';
+import {remove, render, replace} from '../utils/render';
+import {isEscEvent} from '../utils/common';
+import {UserActions, UpdateType, State} from '../const';
+import {newPointButtonComponent} from '../main.js';
+import {isOnline} from '../utils/common';
+import {toast} from '../utils/toast';
 
 
 const Mode = {
@@ -146,10 +148,18 @@ export default class Point {
   }
 
   _handleEditClick() {
+    if (!isOnline()) {
+      toast('You can\'t edit point offline');
+      return;
+    }
     this._replaceWaypointToEdit();
   }
 
   _handleDeleteClick(waypoint) {
+    if (!isOnline()) {
+      toast('You can\'t delete point offline');
+      return;
+    }
     this._changeData(
       UserActions.DELETE_WAYPOINT,
       UpdateType.MINOR,
@@ -163,6 +173,10 @@ export default class Point {
   }
 
   _handleFormSubmit(waypoint) {
+    if (!isOnline()) {
+      toast('You can\'t save task offline');
+      return;
+    }
     this._changeData(
       UserActions.UPDATE_WAYPOINT,
       UpdateType.MINOR, waypoint);

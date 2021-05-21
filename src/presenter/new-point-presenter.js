@@ -1,8 +1,8 @@
 import WaypointEditView from '../view/waypoint-edit';
-import { render, RenderPosition, remove } from '../utils/render';
-import { UpdateType, UserActions } from '../const';
-import { newPointButtonComponent } from '../main.js';
-import { isEscEvent } from '../utils/common';
+import {render, RenderPosition, remove} from '../utils/render';
+import {UpdateType, UserActions} from '../const';
+import {newPointButtonComponent} from '../main.js';
+import {isEscEvent} from '../utils/common';
 
 export default class NewPointPresenter {
   constructor(pointListContainer, changeData) {

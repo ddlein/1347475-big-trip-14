@@ -1,5 +1,5 @@
 import TripInfoView from '../view/trip-info';
-import { render, RenderPosition, replace, remove } from '../utils/render.js';
+import {render, RenderPosition, replace, remove} from '../utils/render.js';
 
 export default class TripInfo {
   constructor(tripInfoContainer, waypointsModel) {
@@ -16,7 +16,6 @@ export default class TripInfo {
 
   init() {
     const prevTripInfoComponent = this._tripInfoComponent;
-
     this._points = this._waypointsModel.get();
     if (this._points.length) {
       this._tripInfoComponent = new TripInfoView(this._points);

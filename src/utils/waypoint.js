@@ -13,10 +13,7 @@ const getDiffTime = (dateFrom, dateTo) => {
   const hours = Math.floor(minutes / MINUTES_IN_HOURS);
   minutes = minutes - (hours * MINUTES_IN_HOURS);
 
-  if (hours === 0) {
-    return `${minutes}M`;
-  }
-  return `${hours}H ${minutes}M`;
+  return hours === 0 ? `${minutes}M` : `${hours}H ${minutes}M`;
 };
 
 const getDiffTimeInMinutes = (dateFrom, dateTo) => {
@@ -43,11 +40,7 @@ const getDateForList = (dateTo) => {
 };
 
 const formatDateForEditPoint = (date) => {
-  if (date !== null) {
-    return dayjs(date).format('D/MM/YY HH:mm');
-  } else {
-    return '';
-  }
+  return date !== null ? dayjs(date).format('D/MM/YY HH:mm') : '';
 };
 
 const getTotalDate = (dateFrom, dateTo) => {
@@ -73,10 +66,7 @@ const getWeightForNullDate = (date1, date2) => {
 const sortByDay = (point1, point2) => {
   const weight = getWeightForNullDate(dayjs(point1.dateFrom), dayjs(point2.dateFrom));
 
-  if (weight !== null) {
-    return weight;
-  }
-  return dayjs(point1.dateFrom).diff(dayjs(point2.dateFrom));
+  return weight !== null ? weight : dayjs(point1.dateFrom).diff(dayjs(point2.dateFrom));
 };
 
 const sortByPrice = (price1, price2) => {
@@ -123,9 +113,7 @@ const sortByEvent = (point1, point2) => {
 };
 
 const isDateFromMoreDateTo = (dateFrom, dateTo) => {
-  if (dayjs(dateFrom) > dayjs(dateTo)) {
-    return true;
-  }
+  return dayjs(dateFrom) > dayjs(dateTo);
 };
 
 const isFuture = (dateFrom, dateTo) => {
@@ -137,5 +125,19 @@ const isPast = (dateFrom, dateTo) => {
 };
 
 export {
-  getTime, formatDateForEditPoint, getDiffTime, getDateForList, getTotalDate, sortByDay, sortByPrice, sortByTime, sortByOffers, sortByEvent, isDateFromMoreDateTo, isFuture, isPast, getDiffTimeInMinutes, getParsedDurationFromMinutes
+  getTime,
+  formatDateForEditPoint,
+  getDiffTime,
+  getDateForList,
+  getTotalDate,
+  sortByDay,
+  sortByPrice,
+  sortByTime,
+  sortByOffers,
+  sortByEvent,
+  isDateFromMoreDateTo,
+  isFuture,
+  isPast,
+  getDiffTimeInMinutes,
+  getParsedDurationFromMinutes
 };

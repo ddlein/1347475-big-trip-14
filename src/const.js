@@ -70,7 +70,6 @@ const UpdateType = {
   MAJOR: 'MAJOR',
   INIT: 'INIT',
 };
-
 const FilterType = {
   EVERYTHING: 'EVERYTHING',
   FUTURE: 'FUTURE',
@@ -83,7 +82,6 @@ const MenuItem = {
 };
 
 const ButtonState = {
-  DISABLED: 'disabled',
   SAVING: 'Saving...',
   DELETING: 'Deleting...',
 };
@@ -94,4 +92,17 @@ const ButtonName = {
   DELETE: 'Delete',
 };
 
-export { TYPES, CITIES, OFFERS, DESCRIPTION, SortType, UserActions, UpdateType, FilterType, MenuItem, State, ButtonState, ButtonName };
+export {
+  TYPES,
+  CITIES,
+  OFFERS,
+  DESCRIPTION,
+  SortType,
+  UserActions,
+  UpdateType,
+  FilterType,
+  MenuItem,
+  State,
+  ButtonState,
+  ButtonName
+};

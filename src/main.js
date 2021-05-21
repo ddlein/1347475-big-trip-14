@@ -1,6 +1,6 @@
 import SiteMenuView from './view/site-menu.js';
 import NewPointButtonView from './view/new-point-button-view.js';
-import { render, RenderPosition, remove } from './utils/render.js';
+import {render, RenderPosition, remove} from './utils/render.js';
 import TripPresenter from './presenter/trip';
 import FilterPresenter from './presenter/filter.js';
 import TripInfoPresenter from './presenter/tripinfo';
@@ -8,14 +8,20 @@ import WaypointsModel from './model/waypoint';
 import FilterModel from './model/filter';
 import DestinationsModel from './model/destinations';
 import OffersModel from './model/offers';
-import { MenuItem, UpdateType } from './const.js';
+import {MenuItem, UpdateType} from './const.js';
 import StatsView from './view/stats.js';
-import Api from './api.js';
-import '../src/mock/route.js';
+import Api from './api/api.js';
+import {isOnline} from './utils/common.js';
+import Store from './api/store.js';
+import Provider from './api/provider.js';
+import {toast} from './utils/toast.js';
 
 
 const AUTHORIZATION = 'Basic kTy9gIdsz2317rD';
 const END_POINT = 'https://14.ecmascript.pages.academy/big-trip';
+const STORE_PREFIX = 'bigtrip-localstorage';
+const STORE_VER = 'v14';
+const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
 
 
 const headerElement = document.querySelector('.page-header');
@@ -27,6 +33,8 @@ const eventsElement = mainElement.querySelector('.trip-events');
 const mainContainer = mainElement.querySelector('.page-body__container');
 
 const api = new Api(END_POINT, AUTHORIZATION);
+const store = new Store(STORE_NAME, window.localStorage);
+const apiWithProvider = new Provider(api, store);
 
 const waypointsModel = new WaypointsModel();
 const filterModel = new FilterModel();
@@ -43,7 +51,7 @@ const tripPresenter = new TripPresenter(
   offersModel,
   destinationsModel,
   filterModel,
-  api,
+  apiWithProvider,
 );
 const filterPresenter = new FilterPresenter(
   filtersElement,
@@ -59,12 +67,17 @@ let statisticsComponent = null;
 
 
 newPointButtonComponent.setClickHandler(() => {
+  if (!isOnline()) {
+    toast('You can\'t create new point offline');
+    siteMenuComponent.setMenuItem(MenuItem.TABLE);
+    return;
+  }
   newPointButtonComponent.setDisabled();
   tripPresenter.createWaypoint();
+
 });
 
 tripPresenter.init();
-
 const handleSiteMenuClick = (menuItem) => {
   switch (menuItem) {
     case MenuItem.TABLE:
@@ -83,13 +96,14 @@ const handleSiteMenuClick = (menuItem) => {
 
 
 Promise.all([
-  api.getOffers(),
-  api.getDestinations(),
-  api.getPoints(),
+  apiWithProvider.getOffers(),
+  apiWithProvider.getDestinations(),
+  apiWithProvider.getPoints(),
 ]).then(([offers, destinations, points]) => {
   offersModel.set(offers);
   destinationsModel.set(destinations);
   waypointsModel.set(UpdateType.INIT, points);
+  //console.log(points);
   tripInfoPresenter.init();
   filterPresenter.init();
   render(menuElement, siteMenuComponent);
@@ -103,4 +117,18 @@ Promise.all([
     render(menuElement, siteMenuComponent);
     siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
   });
+
+
+window.addEventListener('load', () => {
+  navigator.serviceWorker.register('/sw.js');
+});
+
+window.addEventListener('online', () => {
+  document.title = document.title.replace(' [offline]', '');
+  apiWithProvider.sync();
+});
+
+window.addEventListener('offline', () => {
+  document.title += ' [offline]';
+});
 
