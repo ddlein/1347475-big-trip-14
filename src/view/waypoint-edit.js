@@ -40,10 +40,13 @@ const isAvailableOffer = (defaultOffers, type, offers) => {
     },
   );
   for (let i = 0; i < offersChanged.length; i++) {
-    offerTags = offersChanged[i].offers.map(({
-      title,
-      price,
-    }) => createOffer(title, price, offers !== undefined ? offers.some((offer) => offer.title === title) : false));
+
+    if(offersChanged[i].offers != undefined) {
+      offerTags = offersChanged[i].offers.map(({
+        title,
+        price,
+      }) => createOffer(title, price, offers !== undefined ? offers.some((offer) => offer.title === title) : false));
+    }
   }
   return offerTags.length !== 0 ? offerTags.join('') : '';
 };
@@ -104,7 +107,7 @@ const createTypes = (defaultOffers) => {
   for (let i = 0; i < defaultOffers.length; i++) {
     types.push(`<div class="event__type-item">
              <input id="event-type-${defaultOffers[i].type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${defaultOffers[i].type}">
-            <label class="event__type-label  event__type-label--${defaultOffers[i].type}" for="event-type-${defaultOffers[i].type}-1">${defaultOffers[i].type.charAt(0).toUpperCase() + defaultOffers[i].type.slice(1)}</label>
+            <label class="event__type-label  event__type-label--${defaultOffers[i].type}" for="event-type-${defaultOffers[i].type}-1">${defaultOffers[i].type !== undefined ? defaultOffers[i].type.charAt(0).toUpperCase() + defaultOffers[i].type.slice(1) : ''}</label>
              </div>`);
   }
 
@@ -144,7 +147,6 @@ const createEditFormTemplate = (data) => {
     isSaving,
     isDeleting,
   } = data;
-
   const createdOffers = isAvailableOffer(defaultOffers, type, offers);
 
   return `<li class="trip-events__item">
@@ -282,6 +284,8 @@ export default class WaypointEdit extends SmartView {
         defaultDate: formatDateForEditPoint(date),
         onChange: dateChangeHandler,
         enableTime: true,
+        'time_24hr': true,
+        minDate: this._data.dateFrom || new Date(),
       },
     );
   }

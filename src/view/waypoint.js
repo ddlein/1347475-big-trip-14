@@ -18,9 +18,10 @@ const createWaypointsTemplate = (route) => {
   const isFavoriteF = () => {
     return isFavorite ? 'event__favorite-btn--active' : '';
   };
-
-  for (let i = 0; i < offers.length; i++) {
-    offerList.push(createOfferForList(offers[i].title, offers[i].price));
+  if(offers != undefined) {
+    for (let i = 0; i < offers.length; i++) {
+      offerList.push(createOfferForList(offers[i].title, offers[i].price));
+    }
   }
 
   const timeFrom = getTime(dateFrom);

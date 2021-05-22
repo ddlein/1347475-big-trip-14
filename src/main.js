@@ -17,7 +17,7 @@ import Provider from './api/provider.js';
 import {showToast} from './utils/toast.js';
 
 
-const AUTHORIZATION = 'Basic kTy9gIdsz2317rD';
+const AUTHORIZATION = 'Basic pTy9gIz2317rD';
 const END_POINT = 'https://14.ecmascript.pages.academy/big-trip';
 const STORE_PREFIX = 'bigtrip-localstorage';
 const STORE_VER = 'v14';
@@ -108,8 +108,10 @@ Promise.all([
   render(menuElement, siteMenuComponent);
   siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
   render(tripMainElement, newPointButtonComponent);
+  console.log(points);
 })
-  .catch(() => {
+  .catch((e) => {
+    console.log(e);
     offersModel.set([]);
     destinationsModel.set([]);
     waypointsModel.set(UpdateType.INIT, []);

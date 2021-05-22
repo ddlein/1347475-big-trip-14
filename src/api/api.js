@@ -76,7 +76,8 @@ export default class Api {
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
     headers.append('Authorization', this._authorization);
-
+    console.log(`${this._endPoint}/${url}`);
+    console.log(headers);
     return fetch(`${this._endPoint}/${url}`, {method, body, headers})
       .then(Api.checkStatus)
       .catch(Api.catchError);

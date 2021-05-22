@@ -21,7 +21,7 @@ const createRouteTemplate = (points) => {
   let sum = 0;
   points.forEach((elem) => {
     sum += elem.basePrice;
-    if (elem.offers.length !== 0) {
+    if (elem.offers !== undefined && elem.offers.length !== 0) {
       elem.offers.forEach((offer) => {
         sum += offer.price;
       });
