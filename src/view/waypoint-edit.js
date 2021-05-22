@@ -14,8 +14,8 @@ const BLANK_WAYPOINT = {
   basePrice: '',
   destination: null,
   description: '',
-  dateFrom: dayjs(),
-  dateTo: dayjs(),
+  dateFrom: new Date(),
+  dateTo: new Date(),
   offers: [],
   isFavorite: false,
 };
@@ -264,25 +264,35 @@ export default class WaypointEdit extends SmartView {
   }
 
   _setDatepickerFrom() {
-    return this._setDatepicker(this._datepickerFrom, '#event-start-time-1', this._data.dateFrom, this._dateFromChangeHandler);
+    if (this._datepickerFrom) {
+      this._datepickerFrom.destroy();
+      this._datepickerFrom = null;
+    }
+
+    this._datepickerFrom = flatpickr(
+      this.getElement().querySelector('#event-start-time-1'),
+      {
+        dateFormat: 'd/m/y H:i',
+        defaultDate: formatDateForEditPoint(this._data.dateFrom),
+        onChange: this._dateFromChangeHandler,
+        enableTime: true,
+        'time_24hr': true,
+      },
+    );
   }
 
   _setDatepickerTo() {
-    return this._setDatepicker(this._datepickerTo, '#event-end-time-1', this._data.dateTo, this._dateToChangeHandler);
-  }
-
-  _setDatepicker(datepicker, inputId, date, dateChangeHandler) {
-    if (datepicker) {
-      datepicker.destroy();
-      datepicker = null;
+    if (this._datepickerTo) {
+      this._datepickerTo.destroy();
+      this._datepickerTo = null;
     }
 
-    datepicker = flatpickr(
-      this.getElement().querySelector(inputId),
+    this._datepickerTo = flatpickr(
+      this.getElement().querySelector('#event-end-time-1'),
       {
         dateFormat: 'd/m/y H:i',
-        defaultDate: formatDateForEditPoint(date),
-        onChange: dateChangeHandler,
+        defaultDate: formatDateForEditPoint(this._data.dateTo),
+        onChange: this._dateToChangeHandler,
         enableTime: true,
         'time_24hr': true,
         minDate: this._data.dateFrom || new Date(),
@@ -293,14 +303,33 @@ export default class WaypointEdit extends SmartView {
   _dateFromChangeHandler([userDate]) {
     this.updateData({
       dateFrom: userDate,
-    });
+    },
+    true,
+    );
+
+    this._datepickerTo.set('minDate', userDate);
+    this._datepickerTo.set('minTime', userDate);
+
+    if (this._dateState <= userDate || !this._dateState) {
+      this._datepickerTo.setDate(userDate);
+      this._dateState = userDate;
+
+      this.updateData(
+        {
+          dateTo: userDate,
+        },
+        true,
+      );
+    }
 
   }
 
   _dateToChangeHandler([userDate]) {
+    this._dateState = userDate;
     this.updateData({
       dateTo: userDate,
-    });
+    }, true,
+    );
   }
 
   _typePointToggleHandler(evt) {

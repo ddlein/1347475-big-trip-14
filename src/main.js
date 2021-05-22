@@ -108,10 +108,8 @@ Promise.all([
   render(menuElement, siteMenuComponent);
   siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
   render(tripMainElement, newPointButtonComponent);
-  console.log(points);
 })
-  .catch((e) => {
-    console.log(e);
+  .catch(() => {
     offersModel.set([]);
     destinationsModel.set([]);
     waypointsModel.set(UpdateType.INIT, []);

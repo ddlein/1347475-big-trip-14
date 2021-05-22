@@ -44,7 +44,7 @@ export default class Trip {
 
 
   init() {
-    render(this._tripContainer, this._waypointListComponent); //UL
+    render(this._tripContainer, this._waypointListComponent);
 
     this._waypointsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);

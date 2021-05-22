@@ -21,7 +21,6 @@ export default class Provider {
   }
 
   getPoints() {
-    console.log(isOnline());
     if (isOnline()) {
       return this._api.getPoints()
         .then((points) => {
@@ -107,7 +106,6 @@ export default class Provider {
           const deletedPoints = getSyncedPoints(response.deleted);
 
           const items = createStoreStructure([...createdPoints, ...updatedPoints, ...deletedPoints]);
-          //const items = createStoreStructure([...createdPoints, ...updatedPoints]);
 
           this._store.setItems(items);
         });
