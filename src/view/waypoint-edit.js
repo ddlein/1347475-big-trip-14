@@ -1,7 +1,6 @@
 import {formatDateForEditPoint} from '../utils/waypoint.js';
 import SmartView from './smart';
 import flatpickr from 'flatpickr';
-import dayjs from 'dayjs';
 import he from 'he';
 import {ButtonState, ButtonName} from '../const.js';
 
