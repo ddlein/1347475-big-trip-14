@@ -8,13 +8,13 @@ import WaypointsModel from './model/waypoint';
 import FilterModel from './model/filter';
 import DestinationsModel from './model/destinations';
 import OffersModel from './model/offers';
-import {MenuItem, UpdateType} from './const.js';
+import {MenuItem, ToastMessages, UpdateType} from './const.js';
 import StatsView from './view/stats.js';
 import Api from './api/api.js';
 import {isOnline} from './utils/common.js';
 import Store from './api/store.js';
 import Provider from './api/provider.js';
-import {toast} from './utils/toast.js';
+import {showToast} from './utils/toast.js';
 
 
 const AUTHORIZATION = 'Basic kTy9gIdsz2317rD';
@@ -68,7 +68,7 @@ let statisticsComponent = null;
 
 newPointButtonComponent.setClickHandler(() => {
   if (!isOnline()) {
-    toast('You can\'t create new point offline');
+    showToast(ToastMessages.NEW_POINT);
     siteMenuComponent.setMenuItem(MenuItem.TABLE);
     return;
   }
@@ -103,7 +103,6 @@ Promise.all([
   offersModel.set(offers);
   destinationsModel.set(destinations);
   waypointsModel.set(UpdateType.INIT, points);
-  //console.log(points);
   tripInfoPresenter.init();
   filterPresenter.init();
   render(menuElement, siteMenuComponent);

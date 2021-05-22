@@ -92,6 +92,13 @@ const ButtonName = {
   DELETE: 'Delete',
 };
 
+const ToastMessages = {
+  NEW_POINT: 'You can\'t create new point offline',
+  EDIT_POINT: 'You can\'t edit point offline',
+  DELETE_POINT: 'You can\'t delete point offline',
+  SAVE_POINT: 'You can\'t save task offline',
+};
+
 export {
   TYPES,
   CITIES,
@@ -104,5 +111,6 @@ export {
   MenuItem,
   State,
   ButtonState,
-  ButtonName
+  ButtonName,
+  ToastMessages
 };

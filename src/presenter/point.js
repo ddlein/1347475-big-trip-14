@@ -2,10 +2,10 @@ import WaypointView from '../view/waypoint';
 import WaypointEditView from '../view/waypoint-edit';
 import {remove, render, replace} from '../utils/render';
 import {isEscEvent} from '../utils/common';
-import {UserActions, UpdateType, State} from '../const';
+import {UserActions, UpdateType, State, ToastMessages} from '../const';
 import {newPointButtonComponent} from '../main.js';
 import {isOnline} from '../utils/common';
-import {toast} from '../utils/toast';
+import {showToast} from '../utils/toast';
 
 
 const Mode = {
@@ -13,6 +13,10 @@ const Mode = {
   EDITING: 'EDITING',
 };
 
+const Messages = {
+  NEW_POINT: 'You can\'t delete point offline',
+  EDIT_POINT: 'You can\'t edit point offline',
+};
 export default class Point {
   constructor(tripListContainer, changeData, changeMode, offersModel, destinationModel) {
     this._tripListContainer = tripListContainer;
@@ -149,7 +153,7 @@ export default class Point {
 
   _handleEditClick() {
     if (!isOnline()) {
-      toast('You can\'t edit point offline');
+      showToast(Messages.EDIT_POINT);
       return;
     }
     this._replaceWaypointToEdit();
@@ -157,7 +161,7 @@ export default class Point {
 
   _handleDeleteClick(waypoint) {
     if (!isOnline()) {
-      toast('You can\'t delete point offline');
+      showToast(ToastMessages.DELETE_POINT);
       return;
     }
     this._changeData(
@@ -174,7 +178,7 @@ export default class Point {
 
   _handleFormSubmit(waypoint) {
     if (!isOnline()) {
-      toast('You can\'t save task offline');
+      showToast(ToastMessages.SAVE_POINT);
       return;
     }
     this._changeData(
