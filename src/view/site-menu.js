@@ -22,6 +22,10 @@ export default class SiteMenu extends AbstractView {
 
   _menuClickHandler(evt) {
     evt.preventDefault();
+    const selectedItem = document.querySelector('.trip-tabs__btn--active');
+    if(selectedItem !== null && selectedItem.id === evt.target.id) {
+      return;
+    }
     this.setMenuItem(evt.target.id);
     this._callback.menuClick(evt.target.id);
   }
@@ -32,8 +36,13 @@ export default class SiteMenu extends AbstractView {
   }
 
   setMenuItem(menuItem) {
+    if(menuItem === ''){
+      return;
+    }
+
     const items = this.getElement().querySelectorAll('.trip-tabs__btn');
     items.forEach((item) => item.classList.remove('trip-tabs__btn--active'));
+
 
     const item = this.getElement().querySelector(`[id=${menuItem}]`);
 

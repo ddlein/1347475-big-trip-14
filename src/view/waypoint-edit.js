@@ -40,7 +40,7 @@ const isAvailableOffer = (defaultOffers, type, offers) => {
   );
   for (let i = 0; i < offersChanged.length; i++) {
 
-    if(offersChanged[i].offers != undefined) {
+    if(offersChanged[i].offers !== undefined) {
       offerTags = offersChanged[i].offers.map(({
         title,
         price,
@@ -245,7 +245,7 @@ export default class WaypointEdit extends SmartView {
       .querySelector('.event__input--price')
       .addEventListener('input', this._priceInputHandler);
 
-    if (this.getElement().querySelector('.event__available-offers') != null) {
+    if (this.getElement().querySelector('.event__available-offers') !== null) {
       this.getElement()
         .querySelector('.event__available-offers')
         .addEventListener('click', this._offersClickHandler);
@@ -406,7 +406,7 @@ export default class WaypointEdit extends SmartView {
 
   setFormCancelClickHandler(callback) {
     this._callback.formCancel = callback;
-    if (this.getElement().querySelector('.event__rollup-btn') != null) {
+    if (this.getElement().querySelector('.event__rollup-btn') !== null) {
       this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._formCancelHandler);
     }
   }

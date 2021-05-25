@@ -4,7 +4,7 @@ import {render, RenderPosition, remove} from './utils/render.js';
 import TripPresenter from './presenter/trip';
 import FilterPresenter from './presenter/filter.js';
 import TripInfoPresenter from './presenter/tripinfo';
-import WaypointsModel from './model/waypoint';
+import WaypointsModel from './model/waypoints';
 import FilterModel from './model/filter';
 import DestinationsModel from './model/destinations';
 import OffersModel from './model/offers';
@@ -17,7 +17,7 @@ import Provider from './api/provider.js';
 import {showToast} from './utils/toast.js';
 
 
-const AUTHORIZATION = 'Basic pTy9gIz2317rD';
+const AUTHORIZATION = 'Basic pTy9gIz2317uD';
 const END_POINT = 'https://14.ecmascript.pages.academy/big-trip';
 const STORE_PREFIX = 'bigtrip-localstorage';
 const STORE_VER = 'v14';

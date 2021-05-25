@@ -72,17 +72,17 @@ export default class Trip {
   _getWaypoints() {
     const filterType = this._filterModel.getCurrent();
     const waypoints = this._waypointsModel.get();
-    const filtredWaypoints = filter[filterType](waypoints);
+    const filteredWaypoints = filter[filterType](waypoints);
 
     switch (this._currentSortType) {
       case SortType.DAY:
-        return filtredWaypoints.sort(sortByDay);
+        return filteredWaypoints.sort(sortByDay);
       case SortType.PRICE:
-        return filtredWaypoints.sort(sortByPrice);
+        return filteredWaypoints.sort(sortByPrice);
       case SortType.TIME:
-        return filtredWaypoints.sort(sortByTime);
+        return filteredWaypoints.sort(sortByTime);
     }
-    return filtredWaypoints;
+    return filteredWaypoints;
   }
 
 
@@ -221,13 +221,5 @@ export default class Trip {
     this._currentSortType = sortType;
     this._clearTrip();
     this._renderTrip();
-  }
-
-
-  _clearWaypointList() {
-    Object
-      .values(this._pointPresenter)
-      .forEach((presenter) => presenter.destroy());
-    this._pointPresenter = {};
   }
 }

@@ -31,7 +31,6 @@ export default class TripInfo {
     }
     if (!this._points.length) {
       remove(prevTripInfoComponent);
-      this._infoComponent = null;
     }
   }
 

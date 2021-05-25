@@ -26,9 +26,6 @@ export default class Point {
     this._offersModel = offersModel;
     this._destinationModel = destinationModel;
 
-    this._typesAndOffers = [];
-    this._citiesWithPhotosAndDescription = [];
-
     this._waypointComponent = null;
     this._waypointEditComponent = null;
     this._mode = Mode.DEFAULT;

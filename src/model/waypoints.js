@@ -61,8 +61,8 @@ export default class Waypoints extends Observer {
       waypoint,
       {
         isFavorite: waypoint.is_favorite,
-        dateFrom: waypoint.date_from != null ? new Date(waypoint.date_from) : waypoint.date_from,
-        dateTo: waypoint.date_to != null ? new Date(waypoint.date_to) : waypoint.date_to,
+        dateFrom: waypoint.date_from !== null ? new Date(waypoint.date_from) : waypoint.date_from,
+        dateTo: waypoint.date_to !== null ? new Date(waypoint.date_to) : waypoint.date_to,
         basePrice: waypoint.base_price,
       },
     );
